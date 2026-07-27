@@ -1,0 +1,226 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Hide the WebView2/Edge native password reveal + clear glyphs — we render our
+   own eye toggle, so the native one would show a second, duplicate icon. */
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+/* ── ANDRII 01F — Hand-Drawn Vault · parchment + ink ───────────────────────── */
+:root {
+  /* parchment surfaces */
+  --c-bg:             243 236 221;   /* #F3ECDD parchment   */
+  --c-bg-2:           239 231 212;   /* #EFE7D4             */
+  --c-surface:        251 247 238;   /* #FBF7EE off-white   */
+  --c-surface-sunken: 240 232 214;   /* #F0E8D6 inset       */
+  --c-elevated:       240 232 214;   /* alias of sunken     */
+  --c-hover:          234 224 204;   /* #EAE0CC             */
+  --c-border:         216 204 178;   /* #D8CCB2 hairline    */
+  --c-border-strong:  198 184 153;   /* #C6B899 ink-ish     */
+
+  /* ink */
+  --c-ink:             42  38  34;   /* #2A2622 brown-black */
+  --c-ink-soft:        91  83  71;   /* #5B5347             */
+  --c-ink-faint:      139 129 112;   /* #8B8170             */
+  --c-inverse:        251 247 238;   /* off-white on accent */
+
+  /* accent — molten rust / mahogany, taken from the dripping logo */
+  --c-accent:         156  74  42;   /* #9C4A2A */
+  --c-accent-deep:    116  52  28;   /* #74341C */
+  --c-accent-soft:    234 214 197;   /* #EAD6C5 */
+
+  /* wax red (danger / tampered) + green (safe, rare) + amber */
+  --c-wax:            178  58  53;   /* #B23A35 */
+  --c-wax-deep:       142  43  39;   /* #8E2B27 */
+  --c-safe:            62 125  90;   /* #3E7D5A */
+  --c-safe-deep:       47  99  71;   /* #2F6347 */
+  --c-amber:          201 118  14;   /* #C9760E */
+  --c-amber-deep:     154  90  10;   /* #9A5A0A */
+
+  /* ink shadows — soft + a hard "stamped" offset */
+  --shadow-xs:    0 1px 2px rgba(42,38,34,0.06);
+  --shadow-sm:    0 1px 3px rgba(42,38,34,0.07), 0 1px 2px rgba(42,38,34,0.05);
+  --shadow-md:    0 6px 16px rgba(42,38,34,0.08), 0 2px 4px rgba(42,38,34,0.05);
+  --shadow-lg:    0 18px 40px rgba(42,38,34,0.12), 0 4px 10px rgba(42,38,34,0.06);
+  --shadow-card:  0 2px 5px rgba(42,38,34,0.06);
+  --shadow-stamp: 2px 3px 0 rgba(42,38,34,0.16);
+}
+
+@layer base {
+  * { box-sizing: border-box; }
+
+  html, body, #root { height: 100%; overflow: hidden; }
+
+  body {
+    color: rgb(var(--c-ink));
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    user-select: none;
+    -webkit-user-select: none;
+    /* parchment with faint two-tone warmth + a hint of paper grain */
+    background-color: rgb(var(--c-bg));
+    background-image:
+      radial-gradient(1100px 520px at 18% -8%, rgba(156,74,42,0.06), transparent 60%),
+      radial-gradient(900px 480px at 100% 0%, rgba(178,58,53,0.04), transparent 58%),
+      radial-gradient(rgba(42,38,34,0.022) 1px, transparent 1px);
+    background-size: auto, auto, 4px 4px;
+  }
+
+  input, textarea { user-select: text; -webkit-user-select: text; }
+
+  ::selection { background: rgb(var(--c-accent) / 0.20); }
+
+  ::-webkit-scrollbar { width: 9px; height: 9px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--c-border-strong));
+    border: 2px solid rgb(var(--c-bg));
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: rgb(var(--c-ink-faint)); }
+
+  *:focus-visible {
+    outline: 2px solid rgb(var(--c-accent) / 0.55);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+
+  /* ── Buttons — tactile, ink-bordered, "stamped" ───────────────────────── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2
+           text-sm font-medium rounded-xl border
+           transition-[transform,box-shadow,background-color,border-color,color]
+           duration-150 ease-out
+           active:translate-y-[1.5px]
+           disabled:opacity-40 disabled:pointer-events-none
+           cursor-pointer select-none;
+  }
+
+  .btn-primary {
+    @apply btn px-5 py-2.5
+           bg-accent hover:bg-accent-deep
+           border-accent-deep text-text-inverse;
+    box-shadow: var(--shadow-stamp);
+  }
+  .btn-primary:active { box-shadow: 1px 1px 0 rgba(42,38,34,0.16); }
+
+  .btn-secondary {
+    @apply btn px-4 py-2.5
+           bg-surface hover:bg-hover
+           border-border-strong text-ink;
+    box-shadow: var(--shadow-stamp);
+  }
+  .btn-secondary:active { box-shadow: 1px 1px 0 rgba(42,38,34,0.12); }
+
+  .btn-ghost {
+    @apply btn px-3 py-2 border-transparent
+           hover:bg-hover text-ink-faint hover:text-ink;
+  }
+
+  .btn-wax {
+    @apply btn px-4 py-2.5
+           bg-wax hover:bg-wax-deep border-wax-deep text-text-inverse;
+    box-shadow: var(--shadow-stamp);
+  }
+
+  /* ── Inputs — ink underline on parchment ──────────────────────────────── */
+  .input {
+    @apply w-full bg-transparent border-0 border-b-2 border-border-strong
+           px-0 py-3 text-base text-ink rounded-none
+           placeholder:text-ink-faint
+           focus:outline-none focus:border-accent
+           transition-colors duration-200;
+  }
+
+  .input-box {
+    @apply w-full bg-surface border border-border-strong rounded-xl
+           px-3.5 py-2.5 text-sm text-ink
+           placeholder:text-ink-faint
+           focus:outline-none focus:border-accent
+           transition-all duration-150;
+  }
+
+  /* ── Canvas layouts ───────────────────────────────────────────────────── */
+  .canvas { @apply flex flex-col h-full overflow-hidden; }
+  .canvas-body { @apply flex-1 overflow-y-auto; }
+  .canvas-center { @apply flex-1 flex flex-col items-center justify-center; }
+
+  .bottom-bar {
+    @apply flex items-center justify-between
+           px-8 py-4 border-t border-border
+           bg-surface/60 shrink-0;
+  }
+
+  /* ── Title bar ────────────────────────────────────────────────────────── */
+  .title-bar {
+    @apply flex items-center h-12
+           bg-bg/85 border-b border-border-strong
+           shrink-0 select-none;
+  }
+
+  /* ── Drop zone — hand-drawn dashed ink frame ──────────────────────────── */
+  .drop-zone {
+    @apply flex flex-col items-center justify-center
+           rounded-4xl border-2 border-dashed border-border-strong
+           bg-surface/40
+           transition-[border-color,background-color,box-shadow,transform]
+           duration-200 ease-out;
+  }
+  .drop-zone-active {
+    @apply border-accent bg-accent-soft/60 scale-[1.006];
+    box-shadow: 0 0 0 4px rgba(156,74,42,0.14), var(--shadow-lg);
+  }
+
+  /* ── Ink file card (paper slip) ───────────────────────────────────────── */
+  .ink-card {
+    @apply relative flex items-center gap-3 p-3.5
+           bg-surface border border-border-strong rounded-xl
+           transition-[transform,box-shadow] duration-150 ease-out;
+    box-shadow: var(--shadow-card);
+  }
+  .ink-card:hover { @apply -translate-y-0.5; box-shadow: var(--shadow-md); }
+
+  .ink-card-remove {
+    @apply w-6 h-6 flex items-center justify-center shrink-0
+           rounded-lg opacity-0 group-hover:opacity-100
+           text-ink-faint hover:text-wax hover:bg-wax/10
+           transition-all duration-100;
+  }
+
+  /* ── File row (open archive) ──────────────────────────────────────────── */
+  .file-row {
+    @apply flex items-center gap-3 py-2.5
+           border-b border-border last:border-0;
+  }
+
+  .divider { @apply border-t border-border my-5; }
+}
+
+@layer utilities {
+  .tabular-nums { font-variant-numeric: tabular-nums; }
+  .drag-region { -webkit-app-region: drag; app-region: drag; }
+  .no-drag { -webkit-app-region: no-drag; app-region: no-drag; }
+  .ink-underline {
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+  }
+  /* staggered entrance — keeps element hidden during its delay */
+  .assemble { animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) both; }
+}

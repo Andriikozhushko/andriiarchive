@@ -1,0 +1,125 @@
+import { useState, useEffect } from "react";
+import { revealItemInDir } from "@tauri-apps/plugin-opener";
+import Vault from "./Vault";
+import { InkFolder, InkStamp } from "./art";
+import sealIntact from "../assets/seal-intact.png";
+import { useT } from "../i18n";
+import { recordCreated } from "../lib/storage";
+import type { CreateArchiveResponse, PasswordStrengthResult, CompressionLevel } from "../types";
+
+interface SecurityReportProps {
+  result: CreateArchiveResponse;
+  passwordAnalysis: PasswordStrengthResult | null;
+  compressionLabel: CompressionLevel;
+  durationMs: number;
+  onDone: () => void;
+  onCreateAnother: () => void;
+}
+
+function formatBytes(b: number): string {
+  if (b < 1024)       return `${b} B`;
+  if (b < 1048576)    return `${(b / 1024).toFixed(1)} KB`;
+  if (b < 1073741824) return `${(b / 1048576).toFixed(1)} MB`;
+  return `${(b / 1073741824).toFixed(2)} GB`;
+}
+
+function formatDuration(ms: number): string {
+  const s = Math.round(ms / 1000);
+  if (s < 60) return `${s}s`;
+  const m = Math.floor(s / 60);
+  const rem = s % 60;
+  return `${m}m ${rem.toString().padStart(2, "0")}s`;
+}
+
+export default function SecurityReport({ result, durationMs, onDone, onCreateAnother }: SecurityReportProps) {
+  const t = useT();
+  const [copied, setCopied] = useState(false);
+  const [revealError, setRevealError] = useState<string | null>(null);
+
+  const normalized  = result.output_path.replace(/\\/g, "/");
+  const archiveName = normalized.split("/").pop() ?? result.output_path;
+  const fileWord    = t(result.file_count === 1 ? "common.file" : "common.files");
+  const saved = result.total_original_size > 0
+    ? Math.round((1 - result.total_compressed_size / result.total_original_size) * 100)
+    : 0;
+  const mostlyCompressed = saved < 5;
+
+  // Remember this vault once.
+  useEffect(() => {
+    recordCreated({
+      path: result.output_path, name: archiveName,
+      fileCount: result.file_count, sealedSize: result.total_compressed_size,
+    });
+  }, [result.output_path]);
+
+  const copyPath = () => {
+    navigator.clipboard.writeText(result.output_path);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  // Reveal (and highlight) the archive itself in the OS file manager. Never
+  // swallow the failure: the previous shell.open() call could never succeed —
+  // the shell plugin's default scope only permits mailto:/tel:/http(s):// — and
+  // the empty catch is what let that stay invisible for so long.
+  const showInFolder = async () => {
+    setRevealError(null);
+    try {
+      await revealItemInDir(result.output_path);
+    } catch (err) {
+      setRevealError(err instanceof Error ? err.message : String(err));
+    }
+  };
+
+  return (
+    <div className="canvas animate-fade-in">
+      <div className="canvas-center px-10 gap-6">
+        <Vault state="sealed" tone="safe" size={172} src={sealIntact} />
+
+        <div className="text-center space-y-2">
+          <h2 className="font-serif text-[34px] font-semibold tracking-tight text-ink leading-none">{t("protected.title")}</h2>
+          <p className="text-[15px] text-ink-soft max-w-xs mx-auto leading-relaxed">{t("protected.sub")}</p>
+        </div>
+
+        <div className="w-full max-w-sm rounded-2xl border border-border-strong bg-surface shadow-card overflow-hidden">
+          <div className="px-4 py-3.5">
+            <p className="font-mono text-sm font-medium text-ink truncate">{archiveName}</p>
+            {/* Phase 7 — calm two-line summary: sizes, then time + savings. */}
+            <p className="mt-1.5 text-[12px] text-ink-soft tabular-nums">
+              {t("protected.inside", { count: result.file_count, files: fileWord })}
+              {" · "}
+              {formatBytes(result.total_original_size)} → {formatBytes(result.total_compressed_size)}
+            </p>
+            <p className="mt-0.5 text-[12px] text-ink-faint tabular-nums">
+              {formatDuration(durationMs)}
+              {saved > 0 && <> · {t("protected.smaller", { pct: saved })}</>}
+            </p>
+            {mostlyCompressed && (
+              <p className="mt-2 text-[12px] text-ink-soft leading-relaxed">{t("protected.alreadyCompressed")}</p>
+            )}
+          </div>
+          <div className="flex border-t border-border divide-x divide-border">
+            <button onClick={showInFolder} className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[12px] text-ink-soft hover:bg-hover transition-colors">
+              <InkFolder size={14} /> {t("protected.showInFolder")}
+            </button>
+            <button onClick={copyPath} className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[12px] text-ink-soft hover:bg-hover transition-colors">
+              {copied ? t("common.copied") : t("protected.copyPath")}
+            </button>
+          </div>
+          {revealError && (
+            <div className="border-t border-border px-4 py-2.5">
+              <p className="text-[12px] text-danger leading-relaxed" role="alert">
+                {t("protected.revealFailed")} {revealError}
+              </p>
+            </div>
+          )}
+        </div>
+
+      </div>
+
+      <div className="bottom-bar">
+        <button onClick={onCreateAnother} className="btn-ghost text-sm"><InkStamp size={15} /> {t("protected.sealAnother")}</button>
+        <button onClick={onDone} className="btn-primary">{t("common.done")}</button>
+      </div>
+    </div>
+  );
+}

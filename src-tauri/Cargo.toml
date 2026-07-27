@@ -1,0 +1,45 @@
+[package]
+name = "andrii-app"
+version.workspace = true
+edition.workspace = true
+description = "ANDRII secure archive — Tauri application"
+
+[lib]
+name = "andrii_app_lib"
+crate-type = ["staticlib", "rlib"]
+
+[[bin]]
+name = "andrii-app"
+path = "src/main.rs"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+# Embeds the Windows application manifest (ComCtl32 v6, DPI awareness, long paths)
+# without needing windres/mt.exe — it writes the COFF object itself.
+embed-manifest = "1.4"
+# Embeds the app icon (RT_ICON) into the .exe as a standalone resource, so the
+# file itself and its Start Menu / Desktop shortcuts show the chest. Compiled via
+# windres (GNU toolchain) or rc.exe (MSVC). Separate resource type from the
+# manifest above, so the two never collide.
+embed-resource = "3"
+
+[dependencies]
+andrii-core = { workspace = true }
+andrii-crypto = { workspace = true }
+andrii-compress = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
+# Supported replacement for the deprecated `shell.open` (deprecated since Tauri
+# 2.1). Used for "show in folder", which shell.open could never do: the shell
+# plugin's default scope regex only matches mailto:/tel:/http(s):// URLs, so a
+# filesystem path always failed validation.
+tauri-plugin-opener = "2"
+tokio = { version = "1", features = ["full"] }
+thiserror = { workspace = true }
+# `serde` is an implicit feature of zeroize's optional serde dep; it provides
+# `Deserialize for Zeroizing<T>` so password fields can be deserialized straight
+# into a wrapper that wipes the heap buffer on drop.
+zeroize = { workspace = true, features = ["serde"] }

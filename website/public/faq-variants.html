@@ -1,0 +1,89 @@
+<!doctype html><html lang="ru"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ANDRII — 10 вариантов: FAQ (с картинками)</title>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--paper:#efe6d2;--paper-light:#f6efe0;--paper-card:#fbf7ec;--ink:#2b2016;--ink-soft:#6a5a45;--ink-faint:#93805f;--brown:#7a4a23;--line:rgba(70,50,30,.16);--line-strong:rgba(70,50,30,.26);--display:"PT Serif",Georgia,serif;--sans:Inter,system-ui,sans-serif;--sh:0 14px 32px rgba(43,28,12,.1)}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+.ph{padding:48px 0 6px;text-align:center}.ph h1{font-family:var(--display);font-size:2rem;margin:0}.ph p{color:var(--ink-soft);margin:8px auto 0;max-width:60ch}
+.toc{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:18px auto 0}.toc a{font-size:.83rem;color:var(--brown);border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px;text-decoration:none;background:var(--paper-card)}
+.variant{padding:42px 0;border-top:1px solid var(--line)}.variant:nth-child(even){background:var(--paper-light)}
+.vh{display:flex;gap:14px;align-items:baseline;margin-bottom:22px;flex-wrap:wrap}
+.vn{font-family:var(--display);font-weight:700;color:var(--brown);background:var(--paper-card);border:1px solid var(--line);border-radius:10px;width:42px;height:42px;display:grid;place-items:center}
+.vt{font-family:var(--display);font-size:1.25rem;margin:0}.vd{color:var(--ink-soft);font-size:.9rem;margin:0;flex:1 1 260px}
+b,p,h2,h3,h4,summary{margin:0}img{display:block;max-width:100%}
+.thumb{border-radius:10px;object-fit:contain;background:rgba(122,74,35,.06);padding:4px;flex:0 0 auto}
+details{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;list-style:none;font-weight:600;display:flex;align-items:center;gap:14px;padding:14px 0}
+summary::-webkit-details-marker{display:none}
+summary .q{flex:1}summary::after{content:"+";color:var(--brown);font-size:1.3rem}
+details[open] summary::after{content:"–"}
+details .a{color:var(--ink-soft);padding:0 0 16px 60px;max-width:72ch}
+/* 1 side illustration */
+.split{display:grid;grid-template-columns:300px 1fr;gap:40px;align-items:start}
+.split .ill{position:sticky;top:20px;text-align:center}
+.split .ill img{width:100%;filter:drop-shadow(0 18px 26px rgba(40,22,8,.28))}
+.split .ill p{margin-top:14px;color:var(--ink-soft);font-size:.9rem}
+/* 2 cover cards */
+.cov{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.cov .x{background:var(--paper-card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.cov .cap{height:120px;background:rgba(122,74,35,.06);display:grid;place-items:center}
+.cov .cap img{height:96px;width:auto;filter:drop-shadow(0 8px 12px rgba(40,22,8,.2))}
+.cov .bd{padding:16px 18px}.cov .q{font-weight:700;margin-bottom:6px}.cov .a{color:var(--ink-soft);font-size:.9rem}
+/* 3 thumb left QA */
+.qa .x{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+.qa .q{font-weight:700}.qa .a{color:var(--ink-soft);margin-top:4px;font-size:.92rem}
+/* 5 corner icon cards */
+.cic{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.cic .x{position:relative;background:var(--paper-card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;overflow:hidden}
+.cic .x img{position:absolute;right:-10px;bottom:-10px;width:78px;opacity:.22}
+.cic .q{font-weight:700;margin-bottom:6px;position:relative}.cic .a{color:var(--ink-soft);font-size:.9rem;position:relative}
+/* 6 bg cards */
+.bgc{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.bgc .x{border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--paper-card);display:flex;gap:14px;align-items:center}
+.bgc .q{font-weight:700}.bgc .a{color:var(--ink-soft);font-size:.88rem;margin-top:4px}
+/* 7 two col thumb */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.two .x{display:flex;gap:12px;background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.two .q{font-weight:700;font-size:.95rem}.two .a{color:var(--ink-soft);font-size:.85rem;margin-top:3px}
+/* 9 grid big image */
+.gbi{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.gbi .x{background:var(--paper-card);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-align:center}
+.gbi .top{height:110px;background:rgba(122,74,35,.06);display:grid;place-items:center}.gbi .top img{height:88px}
+.gbi .bd{padding:14px}.gbi .q{font-weight:700;font-size:.92rem}.gbi .a{color:var(--ink-soft);font-size:.82rem;margin-top:5px}
+/* 10 minimal thumb */
+.mn .x{display:flex;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.mn .q{font-family:var(--display);font-size:1.05rem}.mn .a{color:var(--ink-soft);font-size:.9rem;margin-top:2px}
+@media(max-width:760px){.split,.cov,.cic,.bgc,.two,.gbi{grid-template-columns:1fr}.split .ill{position:static}}
+</style></head><body>
+<header class="ph wrap"><h1>FAQ с картинками — 10 вариантов</h1><p>Те же вопросы, но с тематическими иллюстрациями. Выбери оформление.</p><nav class="toc" id="toc"></nav></header>
+<main id="app"></main>
+<script>
+const IMG=["archive-box","verify-glass","seal-broken","seal-intact","chest-open","app-icon","chest-open","verify-glass"].map(x=>`./brand/${x}.png`);
+const FAQ=[
+ {q:"ANDRII заменяет ZIP или 7-Zip?",a:"Нет. Это не универсальный архиватор, а локальный защищённый контейнер, где шифруется и содержимое, и структура с метаданными."},
+ {q:"Почему видео и архивы почти не сжимаются?",a:"Они уже сжаты. Видео, фото, аудио и готовые архивы почти не содержат лишних данных — ANDRII показывает это честно."},
+ {q:"Можно восстановить забытый пароль?",a:"Нет. Пароль — единственный способ открыть архив. Механизма восстановления и бэкдора нет."},
+ {q:"Защищены ли имена файлов?",a:"Да. Имена файлов, структура папок, размеры и метаданные шифруются внутри контейнера."},
+ {q:"ANDRII что-то загружает в облако?",a:"Нет. Шифрование, сжатие и проверка идут локально. Облака, телеметрии и внешней обработки нет."},
+ {q:"Приложение open source?",a:"Да. Исходный код открыт, включая спецификацию формата и воспроизводимые бенчмарки."},
+ {q:"Какие ОС поддерживаются?",a:"Windows 10/11 x64 и Linux x64. Для Linux — AppImage и DEB, для Windows — EXE и MSI."},
+ {q:"Был ли независимый аудит?",a:"Нет. Примитивы проверенные, но сама реализация ещё не проходила независимый криптоаудит."},
+];
+const im=(i,s)=>`<img class="thumb" src="${IMG[i]}" alt="" width="${s}" height="${s}" style="width:${s}px;height:${s}px">`;
+const V=[
+{n:"Аккордеон + иллюстрация",d:"Слева крупная брендовая иллюстрация, справа аккордеон с мини-превью у вопросов.",r:()=>`<div class="split"><div class="ill"><img src="./brand/chest-open.png" alt=""><p>Один запечатанный архив — ответы на главные вопросы рядом.</p></div><div>${FAQ.map((f,i)=>`<details ${i==0?'open':''}><summary>${im(i,40)}<span class="q">${f.q}</span></summary><div class="a">${f.a}</div></details>`).join("")}</div></div>`},
+{n:"Карточки с обложкой",d:"Каждый вопрос — карточка с картинкой-шапкой.",r:()=>`<div class="cov">${FAQ.map((f,i)=>`<div class="x"><div class="cap"><img src="${IMG[i]}" alt=""></div><div class="bd"><div class="q">${f.q}</div><div class="a">${f.a}</div></div></div>`).join("")}</div>`},
+{n:"Превью слева",d:"Круглое тематическое изображение слева от каждого вопроса-ответа.",r:()=>`<div class="qa">${FAQ.map((f,i)=>`<div class="x">${im(i,56)}<div><div class="q">${f.q}</div><div class="a">${f.a}</div></div></div>`).join("")}</div>`},
+{n:"Сплит-аккордеон",d:"Та же раскладка «иллюстрация + аккордеон», но картинка крупнее и без превью в строках.",r:()=>`<div class="split"><div class="ill"><img src="./brand/seal-intact.png" alt=""><p>Печать целостности и приватность под одним паролем.</p></div><div style="border-top:1px solid var(--line)">${FAQ.map(f=>`<details><summary><span class="q">${f.q}</span></summary><div class="a" style="padding-left:0">${f.a}</div></details>`).join("")}</div></div>`},
+{n:"Картинка в углу",d:"Карточки с полупрозрачной иллюстрацией в углу — фирменно и не мешает тексту.",r:()=>`<div class="cic">${FAQ.map((f,i)=>`<div class="x"><div class="q">${f.q}</div><div class="a">${f.a}</div><img src="${IMG[i]}" alt=""></div>`).join("")}</div>`},
+{n:"Карточки с иконкой",d:"Компактные карточки: квадратное превью слева, текст справа.",r:()=>`<div class="bgc">${FAQ.map((f,i)=>`<div class="x">${im(i,52)}<div><div class="q">${f.q}</div><div class="a">${f.a}</div></div></div>`).join("")}</div>`},
+{n:"Две колонки с превью",d:"Сетка 2×N: маленькое изображение + вопрос/ответ.",r:()=>`<div class="two">${FAQ.map((f,i)=>`<div class="x">${im(i,44)}<div><div class="q">${f.q}</div><div class="a">${f.a}</div></div></div>`).join("")}</div>`},
+{n:"Аккордеон с превью",d:"Аккордеон, где у каждого вопроса слева тематическая картинка.",r:()=>`<div style="border-top:1px solid var(--line)">${FAQ.map((f,i)=>`<details><summary>${im(i,38)}<span class="q">${f.q}</span></summary><div class="a">${f.a}</div></details>`).join("")}</div>`},
+{n:"Сетка с картинкой сверху",d:"Три колонки карточек, изображение наверху каждой.",r:()=>`<div class="gbi">${FAQ.map((f,i)=>`<div class="x"><div class="top"><img src="${IMG[i]}" alt=""></div><div class="bd"><div class="q">${f.q}</div><div class="a">${f.a}</div></div></div>`).join("")}</div>`},
+{n:"Минимал с превью",d:"Тихая типографика, но с маленьким изображением у каждого вопроса.",r:()=>`<div class="mn">${FAQ.map((f,i)=>`<div class="x">${im(i,40)}<div><div class="q">${f.q}</div><div class="a">${f.a}</div></div></div>`).join("")}</div>`},
+];
+const app=document.getElementById("app"),toc=document.getElementById("toc");
+V.forEach((v,i)=>{const n=i+1;toc.insertAdjacentHTML("beforeend",`<a href="#v${n}">${n}. ${v.n}</a>`);const s=document.createElement("section");s.className="variant";s.id="v"+n;s.innerHTML=`<div class="wrap"><div class="vh"><div class="vn">${n}</div><div><h2 class="vt">${v.n}</h2><p class="vd">${v.d}</p></div></div>${v.r()}</div>`;app.appendChild(s);});
+</script></body></html>

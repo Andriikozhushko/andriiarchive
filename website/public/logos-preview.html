@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ANDRII — logo variants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root { --serif: "PT Serif", Georgia, serif; --sans: Inter, system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #221610; font-family: var(--sans); color: #fff; }
+  .grid { display: grid; grid-template-columns: 1fr; }
+  .row {
+    display: grid; grid-template-columns: 54px 118px 1fr;
+    align-items: center; gap: 26px;
+    padding: 26px 40px; border-bottom: 1px solid rgba(255,255,255,.09);
+    /* simulate the dark header bar */
+    background: linear-gradient(180deg, #2b1c11, #201409);
+  }
+  .n { font: 700 15px/1 var(--sans); color: #cb9d5b; }
+  .tag { font: 500 11px/1.4 var(--sans); color: rgba(255,255,255,.5); letter-spacing:.02em; }
+  .logo { color: #fff; white-space: nowrap; }
+
+  /* ---- variants (all white, one font each) ---- */
+  .v1 { font: 700 34px/1 var(--serif); letter-spacing: -.01em; }
+  .v2 { font: 400 30px/1 var(--serif); letter-spacing: .34em; padding-right:.34em; }
+  .v3 { font: italic 700 34px/1 var(--serif); letter-spacing: .005em; }
+  .v4 { font: 700 34px/1 var(--serif); letter-spacing: -.01em; }
+  .v5 { font: 700 34px/1 var(--serif); font-variant: small-caps; letter-spacing: .1em; }
+  .v6 { font: 700 32px/1 var(--sans); letter-spacing: -.01em; }
+  .v7 { font: 300 31px/1 var(--sans); letter-spacing: .42em; padding-right:.42em; }
+  .v8 { font: 800 33px/1 var(--sans); letter-spacing: -.035em; }
+  .v9 { font: 600 30px/1 var(--sans); letter-spacing: .04em; }
+  .v10 { font: 500 30px/1 var(--sans); letter-spacing: .3em; padding-right:.3em; position: relative; }
+  .v10::after { content:""; position:absolute; left:0; right:.3em; bottom:-9px; height:1.5px; background: rgba(255,255,255,.85); }
+</style>
+</head>
+<body>
+<div class="grid">
+  <div class="row"><span class="n">01</span><span class="tag">Serif · Bold</span><span class="logo v1">ANDRII</span></div>
+  <div class="row"><span class="n">02</span><span class="tag">Serif · Regular · spaced</span><span class="logo v2">ANDRII</span></div>
+  <div class="row"><span class="n">03</span><span class="tag">Serif · Bold Italic</span><span class="logo v3">ANDRII</span></div>
+  <div class="row"><span class="n">04</span><span class="tag">Serif · Bold · point</span><span class="logo v4">ANDRII.</span></div>
+  <div class="row"><span class="n">05</span><span class="tag">Serif · Small-caps</span><span class="logo v5">Andrii</span></div>
+  <div class="row"><span class="n">06</span><span class="tag">Sans · Bold</span><span class="logo v6">ANDRII</span></div>
+  <div class="row"><span class="n">07</span><span class="tag">Sans · Light · spaced</span><span class="logo v7">ANDRII</span></div>
+  <div class="row"><span class="n">08</span><span class="tag">Sans · Extrabold · tight</span><span class="logo v8">ANDRII</span></div>
+  <div class="row"><span class="n">09</span><span class="tag">Sans · Semibold · dots</span><span class="logo v9">A·N·D·R·I·I</span></div>
+  <div class="row"><span class="n">10</span><span class="tag">Sans · Medium · rule</span><span class="logo v10">ANDRII</span></div>
+</div>
+</body>
+</html>

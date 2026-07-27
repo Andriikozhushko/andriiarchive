@@ -1,0 +1,270 @@
+name: release-build
+
+# ANDRII cross-platform release pipeline.
+#
+# Two modes:
+#   1. Validation (pull_request / push to default branch) — runs library tests,
+#      builds the frontend, sanity-checks the Tauri config, and exercises the
+#      artifact verifier's missing-artifact detection. Does NOT build installers.
+#   2. Release build (tag v* / workflow_dispatch) — builds the full Tauri bundle
+#      matrix (Windows MSI+NSIS, Linux AppImage+DEB), verifies the native
+#      artifacts, then stages them under the exact public release filenames
+#      (ANDRII_1.0.0_x64-setup.exe, ANDRII_1.0.0_x64_en-US.msi,
+#      ANDRII_1.0.0_x64.AppImage, ANDRII_1.0.0_amd64.deb) and uploads the
+#      branded staged files. On tag builds only, a draft GitHub Release is
+#      created with the four branded artifacts + a combined SHA256SUMS.txt that
+#      references only the branded final names. workflow_dispatch never
+#      publishes a public release — artifacts are available as Actions artifacts.
+
+on:
+  push:
+    branches: [master, main]
+    tags: ["v*"]
+  pull_request:
+    branches: [master, main]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: "20"
+  RUST_VERSION: "stable"
+
+concurrency:
+  group: release-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ─────────────────────────────────────────────────────────────────────────
+  # Validation — fast, runs on PRs and default-branch pushes.
+  # ─────────────────────────────────────────────────────────────────────────
+  validate:
+    name: Validate (tests + frontend + config)
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref_type != 'tag')
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Setup Rust ${{ env.RUST_VERSION }}
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: ${{ env.RUST_VERSION }}
+
+      - name: Cargo cache
+        uses: Swatinem/rust-cache@v2
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Rust tests (workspace, excluding Tauri app crate)
+        run: cargo test --workspace --exclude andrii-app
+
+      - name: Frontend build
+        run: npm run build
+
+      - name: Tauri config sanity
+        run: node -e "const c=require('./src-tauri/tauri.conf.json'); if(c.version!=='1.0.0')throw new Error('unexpected version '+c.version); if(!c.bundle.fileAssociations?.some(f=>f.mimeType==='application/x-andrii-archive'))throw new Error('missing .andrii mime'); console.log('tauri config OK', c.bundle.targets);"
+
+      - name: Verify missing-artifact detection (controlled case)
+        # Confirms the verifier correctly FAILS when expected artifacts are absent.
+        run: node scripts/verify-release-artifacts.mjs --platform windows --dir /tmp/empty --expect-missing
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Release build matrix — tag pushes and manual dispatch.
+  # ─────────────────────────────────────────────────────────────────────────
+  build:
+    name: Build (${{ matrix.os }})
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    # Note: no `needs: validate` — validate is skipped on tag/dispatch triggers,
+    # and a skipped dependency would skip this job too. The build job runs its
+    # own tests on both OSes before bundling.
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            platform: windows
+            artifact-name: artifacts-windows
+          - os: ubuntu-22.04
+            platform: linux
+            artifact-name: artifacts-linux
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Setup Rust ${{ env.RUST_VERSION }}
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: ${{ env.RUST_VERSION }}
+
+      - name: Cargo cache
+        uses: Swatinem/rust-cache@v2
+
+      - name: Disable unrelated Microsoft apt sources on hosted runners
+        # ANDRII does not require the Azure CLI or Microsoft Ubuntu product
+        # repositories. GitHub-hosted ubuntu-22.04 images include them, and
+        # transient outages (e.g. HTTP 403 from packages.microsoft.com) can abort
+        # `apt-get update` and block the Ubuntu package installation that ANDRII
+        # actually needs. This step temporarily moves only the affected
+        # third-party Microsoft source files aside on the ephemeral runner so the
+        # official Ubuntu mirrors — which ANDRII's dependencies come from — update
+        # cleanly. Official Ubuntu sources and any unrelated third-party sources
+        # are left untouched. No insecure apt flags (AllowInsecureRepositories,
+        # trusted=yes) are used and apt-get update is never error-suppressed.
+        if: matrix.platform == 'linux'
+        shell: bash
+        run: |
+          set -euo pipefail
+          disabled_dir="/etc/apt/sources.list.d/andrii-ci-disabled"
+          # Source files under /etc/apt are root-owned; the runner user needs
+          # sudo to create the disabled directory and move files aside.
+          sudo mkdir -p "$disabled_dir"
+          moved=0
+          # Scan both classic .list and deb822 .sources formats, including the
+          # main sources.list, for the two known Microsoft source URLs.
+          shopt -s nullglob
+          for f in /etc/apt/sources.list /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources; do
+            [ -f "$f" ] || continue
+            if grep -Eq 'packages\.microsoft\.com/repos/azure-cli|packages\.microsoft\.com/ubuntu/22\.04/prod' "$f"; then
+              echo "Disabling Microsoft apt source: $f"
+              sudo mv "$f" "$disabled_dir/"
+              moved=$((moved + 1))
+            fi
+          done
+          if [ "$moved" -eq 0 ]; then
+            echo "No Microsoft apt sources found; nothing disabled."
+          else
+            echo "Disabled $moved Microsoft apt source file(s) into $disabled_dir"
+          fi
+
+      - name: Install Linux build dependencies (Tauri / WebKitGTK 4.1)
+        if: matrix.platform == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libgtk-3-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            patchelf \
+            file \
+            build-essential \
+            pkg-config
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Rust tests (workspace, excluding Tauri app crate)
+        run: cargo test --workspace --exclude andrii-app
+
+      - name: Build Tauri bundles
+        run: npm run tauri build
+
+      - name: Verify native Tauri artifacts (pre-staging)
+        # Validates Tauri's native output names exist and are non-zero, before
+        # any renaming. Native mode matches by extension pattern.
+        run: node scripts/verify-release-artifacts.mjs --platform ${{ matrix.platform }}
+
+      - name: Stage branded release artifacts
+        # Copies Tauri's native output into a flat staging/ directory using the
+        # exact public release filenames. Native output paths are preserved on
+        # disk; staging only copies/renames. The Linux .deb keeps its internal
+        # lowercase package identity — only the published filename is branded.
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p staging
+          BUNDLE="target/release/bundle"
+          if [ "${{ matrix.platform }}" = "windows" ]; then
+            cp "$BUNDLE"/nsis/*-setup.exe "staging/ANDRII_1.0.0_x64-setup.exe"
+            cp "$BUNDLE"/msi/*.msi        "staging/ANDRII_1.0.0_x64_en-US.msi"
+          fi
+          if [ "${{ matrix.platform }}" = "linux" ]; then
+            cp "$BUNDLE"/appimage/*.AppImage "staging/ANDRII_1.0.0_x64.AppImage"
+            cp "$BUNDLE"/deb/*.deb           "staging/ANDRII_1.0.0_amd64.deb"
+          fi
+          echo "Staged artifacts:"
+          ls -la staging/
+
+      - name: Verify staged branded artifacts + per-platform checksums
+        # Branded mode requires the exact public filenames and rejects any
+        # unexpected release-type files. Per-platform SHA256SUMS is written from
+        # the final staged (branded) names.
+        run: node scripts/verify-release-artifacts.mjs --platform ${{ matrix.platform }} --branded --dir staging --out staging/SHA256SUMS-${{ matrix.platform }}.txt
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact-name }}
+          path: staging/*
+          if-no-files-found: error
+          retention-days: 14
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Release — draft GitHub Release with combined checksums. Tag builds only.
+  # Never runs on workflow_dispatch (no public release from manual runs).
+  # ─────────────────────────────────────────────────────────────────────────
+  release:
+    name: Draft release (checksums + assets)
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: downloaded
+          merge-multiple: true
+
+      - name: Flatten branded artifacts into a single release directory
+        # Copies only the staged branded filenames (ANDRII_*); per-platform
+        # SHA256SUMS-* intermediates are intentionally left behind so only the
+        # four public artifacts reach the release directory.
+        run: |
+          mkdir -p release
+          find downloaded -type f \( \
+            -name 'ANDRII_*.exe' -o \
+            -name 'ANDRII_*.msi' -o \
+            -name 'ANDRII_*.AppImage' -o \
+            -name 'ANDRII_*.deb' \
+          \) -exec cp {} release/ \;
+          ls -la release/
+
+      - name: Verify all four branded artifacts + write combined SHA256SUMS.txt
+        # Branded mode over platform "all" — exact public filenames only, no
+        # extras. SHA256SUMS.txt references only the branded final names.
+        run: node scripts/verify-release-artifacts.mjs --platform all --branded --dir release --out release/SHA256SUMS.txt
+
+      - name: Create draft GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          name: ANDRII ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+          generate_release_notes: true
+          files: |
+            release/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

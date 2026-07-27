@@ -1,0 +1,40 @@
+# Rust
+target/
+# Cargo.lock IS committed: this workspace ships binaries, and a security tool
+# needs reproducible, auditable dependency versions across builds and CI.
+
+# Node / Frontend
+node_modules/
+dist/
+.cache/
+
+# Tauri
+src-tauri/target/
+src-tauri/WixTools/
+src-tauri/gen/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/settings.json
+.idea/
+*.iml
+
+# Env / secrets — never commit: opencode.json holds a provider API key
+.env
+.env.local
+opencode.json
+
+# Scratch screenshot output (tens of MB, regenerable)
+.shots/
+docs/redesign-shots/
+
+# Test archives
+*.andrii
+!tests/fixtures/*.andrii
+benchmark-data/
+
+.env

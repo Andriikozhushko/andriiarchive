@@ -1,0 +1,16 @@
+{
+  "dataset": "incompressible-media-like",
+  "file_count": 7,
+  "input_bytes": 105906176,
+  "tool": "ANDRII",
+  "mode": "Balanced",
+  "output_bytes": 105911622,
+  "compression_ratio": -0.000051422874526307893,
+  "space_saved_pct": -0.005142287452630789,
+  "create_seconds": 26.9646036,
+  "extract_seconds": 26.3647188,
+  "verify_seconds": 0.0571658,
+  "create_throughput_mbps": 3.7456512062354217,
+  "extract_throughput_mbps": 3.8308771948669524,
+  "rep": 1
+}

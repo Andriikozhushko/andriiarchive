@@ -1,0 +1,98 @@
+<!doctype html><html lang="ru"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ANDRII — 10 вариантов: сравнение</title>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--paper:#efe6d2;--paper-light:#f6efe0;--paper-card:#fbf7ec;--ink:#2b2016;--ink-soft:#6a5a45;--ink-faint:#93805f;--brown:#7a4a23;--gold:#cb9d5b;--ok:#3f7d46;--no:#b14b3a;--line:rgba(70,50,30,.16);--line-strong:rgba(70,50,30,.26);--display:"PT Serif",Georgia,serif;--sans:Inter,system-ui,sans-serif;--sh:0 14px 32px rgba(43,28,12,.1)}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.ph{padding:48px 0 6px;text-align:center}.ph h1{font-family:var(--display);font-size:2rem;margin:0}.ph p{color:var(--ink-soft);margin:8px auto 0;max-width:60ch}
+.toc{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:18px auto 0}.toc a{font-size:.83rem;color:var(--brown);border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px;text-decoration:none;background:var(--paper-card)}
+.variant{padding:42px 0;border-top:1px solid var(--line)}.variant:nth-child(even){background:var(--paper-light)}
+.vh{display:flex;gap:14px;align-items:baseline;margin-bottom:22px;flex-wrap:wrap}
+.vn{font-family:var(--display);font-weight:700;color:var(--brown);background:var(--paper-card);border:1px solid var(--line);border-radius:10px;width:42px;height:42px;display:grid;place-items:center}
+.vt{font-family:var(--display);font-size:1.25rem;margin:0}.vd{color:var(--ink-soft);font-size:.9rem;margin:0;flex:1 1 260px}
+b,p,h2,h3,h4{margin:0}
+.logo{width:26px;height:26px;border-radius:7px;display:inline-grid;place-items:center;font-weight:800;font-size:.8rem;color:#fff;flex:0 0 auto;overflow:hidden}
+.logo img{width:84%;height:84%;object-fit:contain}
+.ok{color:var(--ok);font-weight:700}.bad{color:var(--no)}.part{color:var(--ink-faint)}
+/* generic table */
+.tb{width:100%;border-collapse:collapse;background:var(--paper-card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.tb th,.tb td{padding:11px 12px;border-top:1px solid var(--line);font-size:.86rem;text-align:center}
+.tb th:first-child,.tb td:first-child{text-align:left;font-weight:600}
+.tb thead th{border-top:0;background:rgba(74,52,31,.05);font-size:.74rem}
+.tb .me{background:rgba(122,74,35,.08)}
+.thead-tool{display:flex;flex-direction:column;align-items:center;gap:6px}
+/* v3 cards */
+.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.tcard{background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center}
+.tcard.me{border-color:var(--brown);box-shadow:var(--sh)}
+.tcard .h{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:10px}
+.tcard ul{list-style:none;margin:0;padding:0;text-align:left;font-size:.8rem}
+.tcard li{padding:5px 0;border-top:1px solid var(--line);color:var(--ink-soft)}
+/* v4 two col */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.two .col{background:var(--paper-card);border:1px solid var(--line);border-radius:14px;padding:22px}
+.two .me{border-color:var(--brown);box-shadow:var(--sh)}
+.two h4{font-family:var(--display);font-size:1.2rem;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.two li{list-style:none;padding:7px 0;border-top:1px solid var(--line);font-size:.88rem}
+/* v5 benefits */
+.ben{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.ben .x{display:flex;gap:12px;align-items:flex-start;background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.ben .x .ic{color:var(--ok);font-weight:800}
+.ben .x b{display:block;font-size:.95rem}.ben .x span{color:var(--ink-soft);font-size:.83rem}
+/* v6 verdicts */
+.ver{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.ver .x{background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.ver .x.me{border-color:var(--brown);box-shadow:var(--sh)}
+.ver .h{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-weight:700}
+.ver p{color:var(--ink-soft);font-size:.82rem}
+/* v8 leaderboard */
+.lb{display:flex;flex-direction:column;gap:8px}
+.lb .x{display:grid;grid-template-columns:30px 1fr 70px;align-items:center;gap:14px;background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+.lb .x.me{border-color:var(--brown);box-shadow:var(--sh)}
+.lb .rank{font-family:var(--display);font-size:1.3rem;color:var(--ink-faint)}
+.lb .nm{display:flex;align-items:center;gap:10px;font-weight:600}
+.lb .sc{text-align:right;font-family:var(--display);font-size:1.3rem;color:var(--brown)}
+.lb .tr{height:6px;border-radius:999px;background:rgba(122,74,35,.12);margin-top:6px;overflow:hidden}.lb .fi{height:100%;background:var(--brown)}
+@media(max-width:820px){.cards,.ver{grid-template-columns:1fr 1fr}.ben,.two{grid-template-columns:1fr}.tb{font-size:.78rem}}
+</style></head><body>
+<header class="ph wrap"><h1>Сравнение инструментов — 10 вариантов</h1><p>ANDRII, WinRAR, 7-Zip, WinZip, Windows ZIP. Выбери оформление.</p><nav class="toc" id="toc"></nav></header>
+<main id="app"></main>
+<script>
+const TOOLS=[
+ {k:"andrii",n:"ANDRII",me:1,col:"#7a4a23",img:"./brand/app-icon.png",vd:"Memory-hard ключ, AEAD и всегда скрытые имена и метаданные."},
+ {k:"winrar",n:"WinRAR",col:"#fff",img:"./brand/winrar.svg",vd:"Сильный архиватор; имена — опция, KDF не memory-hard, код закрыт."},
+ {k:"sevenzip",n:"7-Zip",col:"#fff",img:"./brand/sevenzip.svg",vd:"Открытый, AES-256; имена опцией, KDF — SHA-итерации."},
+ {k:"winzip",n:"WinZip",col:"#F7B500",txt:"WZ",vd:"AES-256, но имена открыты, KDF слабый PBKDF2-SHA1, код закрыт."},
+ {k:"windows",n:"Windows ZIP",col:"#0a7",txt:"⊞",vd:"Стандартный ZIP — без шифрования и пароля, открыт любому."},
+];
+const ROWS=[
+ {l:"Шифрование",v:["XChaCha20-Poly1305","AES-256","AES-256","AES-256","Нет"]},
+ {l:"Защита паролем",v:["Argon2id","PBKDF2","SHA-256","PBKDF2","Нет"]},
+ {l:"Стойкость к подбору",v:["Высокая","Средняя","Средняя","Низкая","—"]},
+ {l:"Защита от подмены",v:["Да","Частично","Нет","Частично","Нет"]},
+ {l:"Скрывает имена",v:["Всегда","Опц.","Опц.","Нет","Нет"]},
+ {l:"Скрывает метаданные",v:["Да","Частично","Частично","Нет","Нет"]},
+ {l:"Открытый код",v:["Да","Нет","Да","Нет","Нет"]},
+];
+const logo=(t,sz=26)=>`<span class="logo" style="width:${sz}px;height:${sz}px;background:${t.col}">${t.img?`<img src="${t.img}">`:(t.txt||t.n[0])}</span>`;
+const st=v=>["Да","Всегда","Высокая"].includes(v)?"yes":["Частично","Опц.","Средняя"].includes(v)?"part":["Нет","—","Низкая"].includes(v)?"no":"yes";
+const mark=v=>{const s=st(v);return s=="yes"?'<span class="ok">✓</span>':s=="no"?'<span class="bad">✕</span>':'<span class="part">~</span>'};
+const score=ti=>ROWS.reduce((a,r)=>a+(st(r.v[ti])=="yes"?1:st(r.v[ti])=="part"?.5:0),0);
+
+const V=[
+{n:"Таблица с подсветкой",d:"Полная матрица значений, колонка ANDRII подсвечена. (Текущий стиль.)",r:()=>`<table class="tb"><thead><tr><th>Параметр</th>${TOOLS.map(t=>`<th class="${t.me?'me':''}"><div class="thead-tool">${logo(t)}${t.n}</div></th>`).join("")}</tr></thead><tbody>${ROWS.map(r=>`<tr><td>${r.l}</td>${r.v.map((x,i)=>`<td class="${TOOLS[i].me?'me':''}">${x}</td>`).join("")}</tr>`).join("")}</tbody></table>`},
+{n:"Чек-матрица ✓/✗",d:"Только галочки/крестики — мгновенно видно, у кого что есть.",r:()=>`<table class="tb"><thead><tr><th>Параметр</th>${TOOLS.map(t=>`<th class="${t.me?'me':''}"><div class="thead-tool">${logo(t)}${t.n}</div></th>`).join("")}</tr></thead><tbody>${ROWS.map(r=>`<tr><td>${r.l}</td>${r.v.map((x,i)=>`<td class="${TOOLS[i].me?'me':''}">${mark(x)}</td>`).join("")}</tr>`).join("")}</tbody></table>`},
+{n:"Карточки-колонки",d:"Каждый инструмент — карточка со списком; ANDRII выделен.",r:()=>`<div class="cards">${TOOLS.map((t,i)=>`<div class="tcard ${t.me?'me':''}"><div class="h">${logo(t,34)}<b>${t.n}</b></div><ul>${ROWS.map(r=>`<li>${r.l}: ${mark(r.v[i])}</li>`).join("")}</ul></div>`).join("")}</div>`},
+{n:"ANDRII vs остальные",d:"Две колонки: ANDRII и обобщённо «обычные архиваторы».",r:()=>`<div class="two"><div class="col me"><h4>${logo(TOOLS[0],28)} ANDRII</h4>${ROWS.map(r=>`<li>${r.l}: <b>${r.v[0]}</b></li>`).join("")}</div><div class="col"><h4>Обычные архиваторы</h4>${ROWS.map(r=>`<li>${r.l}: <span class="part">опционально / слабее / нет</span></li>`).join("")}</div></div>`},
+{n:"Выгоды ANDRII",d:"Без полной матрицы — только то, чем ANDRII реально лучше.",r:()=>`<div class="ben">${[["Самый стойкий пароль","Argon2id memory-hard — перебор в разы дороже"],["Защита от подмены","AEAD + BLAKE3 ловят любое изменение"],["Имена всегда скрыты","Не опция, как у архиваторов"],["Метаданные зашифрованы","Размеры и структура тоже скрыты"],["Открытый код","Формат и реализация проверяемы"],["Локально и офлайн","Ни облака, ни телеметрии"]].map(b=>`<div class="x"><span class="ic">✓</span><div><b>${b[0]}</b><span>${b[1]}</span></div></div>`).join("")}</div>`},
+{n:"Вердикты-карточки",d:"Короткий честный вывод по каждому инструменту.",r:()=>`<div class="ver">${TOOLS.map(t=>`<div class="x ${t.me?'me':''}"><div class="h">${logo(t)} ${t.n}</div><p>${t.vd}</p></div>`).join("")}</div>`},
+{n:"Компактная матрица",d:"Та же таблица, но мельче и плотнее — влезает на экран.",r:()=>`<table class="tb" style="font-size:.78rem">${'<thead><tr><th>Параметр</th>'+TOOLS.map(t=>`<th class="${t.me?'me':''}">${t.n}</th>`).join("")+'</tr></thead>'}<tbody>${ROWS.map(r=>`<tr><td>${r.l}</td>${r.v.map((x,i)=>`<td class="${TOOLS[i].me?'me':''}">${x}</td>`).join("")}</tr>`).join("")}</tbody></table>`},
+{n:"Лидерборд по очкам",d:"Считаем баллы (✓=1, ~=0.5) — наглядный рейтинг защиты.",r:()=>{const arr=TOOLS.map((t,i)=>({t,s:score(i)})).sort((a,b)=>b.s-a.s);return `<div class="lb">${arr.map((o,r)=>`<div class="x ${o.t.me?'me':''}"><div class="rank">${r+1}</div><div><div class="nm">${logo(o.t)} ${o.t.n}</div><div class="tr"><div class="fi" style="width:${o.s/ROWS.length*100}%"></div></div></div><div class="sc">${o.s}/${ROWS.length}</div></div>`).join("")}</div>`}},
+{n:"Подсветка преимуществ",d:"Полная таблица, но зелёным горят клетки, где инструмент выигрывает.",r:()=>`<table class="tb"><thead><tr><th>Параметр</th>${TOOLS.map(t=>`<th class="${t.me?'me':''}">${t.n}</th>`).join("")}</tr></thead><tbody>${ROWS.map(r=>`<tr><td>${r.l}</td>${r.v.map((x,i)=>`<td class="${TOOLS[i].me?'me':''}" style="${st(x)=='yes'?'background:rgba(63,125,70,.12);color:var(--ok);font-weight:700':''}">${x}</td>`).join("")}</tr>`).join("")}</tbody></table>`},
+{n:"Минимал (типографика)",d:"Без рамок и цвета — только текст и тонкие линии.",r:()=>`<table class="tb" style="background:none;border:0"><thead><tr><th style="background:none">Параметр</th>${TOOLS.map(t=>`<th style="background:none">${t.n}</th>`).join("")}</tr></thead><tbody>${ROWS.map(r=>`<tr><td>${r.l}</td>${r.v.map((x,i)=>`<td style="${TOOLS[i].me?'color:var(--brown);font-weight:700':''}">${x}</td>`).join("")}</tr>`).join("")}</tbody></table>`},
+];
+const app=document.getElementById("app"),toc=document.getElementById("toc");
+V.forEach((v,i)=>{const n=i+1;toc.insertAdjacentHTML("beforeend",`<a href="#v${n}">${n}. ${v.n}</a>`);const s=document.createElement("section");s.className="variant";s.id="v"+n;s.innerHTML=`<div class="wrap"><div class="vh"><div class="vn">${n}</div><div><h2 class="vt">${v.n}</h2><p class="vd">${v.d}</p></div></div>${v.r()}</div>`;app.appendChild(s);});
+</script></body></html>

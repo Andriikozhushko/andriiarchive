@@ -1,0 +1,60 @@
+<!doctype html><html lang="ru"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ANDRII — 5 вариантов: башня</title>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--paper:#efe6d2;--paper-light:#f6efe0;--paper-card:#fbf7ec;--ink:#2b2016;--ink-soft:#6a5a45;--ink-faint:#93805f;--brown:#7a4a23;--wax:#8f2f24;--gold:#cb9d5b;--line:rgba(70,50,30,.16);--line-strong:rgba(70,50,30,.26);--display:"PT Serif",Georgia,serif;--sans:Inter,system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+.ph{padding:46px 0 6px;text-align:center}.ph h1{font-family:var(--display);font-size:1.9rem;margin:0}.ph p{color:var(--ink-soft);margin:8px auto 0;max-width:64ch}
+.toc{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:18px auto 0}.toc a{font-size:.82rem;color:var(--brown);border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px;text-decoration:none;background:var(--paper-card)}
+.variant{padding:42px 0;border-top:1px solid var(--line)}.variant:nth-child(even){background:var(--paper-light)}
+.vh{display:flex;gap:14px;align-items:baseline;margin-bottom:8px;flex-wrap:wrap}
+.vn{font-family:var(--display);font-weight:700;color:var(--brown);background:var(--paper-card);border:1px solid var(--line);border-radius:10px;width:42px;height:42px;display:grid;place-items:center}
+.vt{font-family:var(--display);font-size:1.18rem;margin:0}.vd{color:var(--ink-soft);font-size:.88rem;margin:0;flex:1 1 260px}
+.note{color:var(--ink-faint);font-size:.78rem;margin:14px 0 0}
+b,p,h2{margin:0}
+.lg{display:inline-grid;place-items:center;border-radius:6px;overflow:hidden;vertical-align:middle;box-shadow:0 1px 3px rgba(43,28,12,.2);flex:0 0 auto}
+.lg img{width:84%;height:84%;object-fit:contain}
+.tname{display:inline-flex;align-items:center;gap:7px}
+.stage{margin-top:24px}
+.colwrap{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px}
+.bar{width:56px;border-radius:7px 7px 0 0}
+.bar.me{background:linear-gradient(180deg,var(--wax),#6f211a);box-shadow:0 0 30px rgba(143,47,36,.3)}
+.disp{font-size:.78rem;white-space:nowrap}
+@media(max-width:760px){.bar{width:42px}}
+</style></head><body>
+<header class="ph wrap"><h1>Башня ANDRII — 5 вариантов</h1><p>Честные линейные пропорции: 1441 год против 7 лет — это ~×200. ANDRII уходит вверх, соперники жмутся к полу. Выбери номер.</p><nav class="toc" id="toc"></nav></header>
+<main id="app"></main>
+<script>
+const T=[
+ {key:"windows",n:"Windows ZIP",y:0,disp:"мгновенно",inst:1},
+ {key:"winzip",n:"WinZip",y:0.0301,disp:"11 дней"},
+ {key:"winrar",n:"WinRAR",y:1.73,disp:"≈ 2 года"},
+ {key:"sevenzip",n:"7-Zip",y:6.92,disp:"≈ 7 лет"},
+ {key:"andrii",n:"ANDRII",y:1441,disp:"1 441 год",me:1},
+];
+const MAX=1441;
+const LGSRC={andrii:"./brand/app-icon.png",winrar:"./brand/winrar.svg",sevenzip:"./brand/sevenzip.svg"};
+function lg(t,s=20){const w=(i,bg)=>`<span class="lg" style="width:${s}px;height:${s}px;background:${bg}">${i}</span>`;
+ if(t.key==="windows")return w(`<svg viewBox="0 0 24 24" width="${s*.66}" height="${s*.66}"><rect x="1.5" y="1.5" width="9.5" height="9.5" rx="1" fill="#F35325"/><rect x="13" y="1.5" width="9.5" height="9.5" rx="1" fill="#81BC06"/><rect x="1.5" y="13" width="9.5" height="9.5" rx="1" fill="#05A6F0"/><rect x="13" y="13" width="9.5" height="9.5" rx="1" fill="#FFBA08"/></svg>`,"#fff");
+ if(t.key==="winzip")return w(`<b style="color:#1f1f1f;font-size:${s*.42}px;font-weight:800">WZ</b>`,"#F7B500");
+ return w(`<img src="${LGSRC[t.key]}">`,"#fff");}
+const col=t=>t.me?"var(--wax)":t.inst?"#9a8a6f":"#9a7b3a";
+const h=(t,H)=>t.me?H:Math.max(t.y/MAX*H,2);
+const NOTE='<p class="note">Высоты — настоящие пропорции времени. 7-Zip (7 лет) — это ~0,5% от ANDRII, поэтому он почти у пола.</p>';
+
+const V=[
+{n:"Чистая башня",d:"Просто колонны до общей линии: ANDRII во всю высоту, остальные — нубы у пола, с подписью-пояснением.",r:()=>{const H=6000;return `<div class="stage" style="display:flex;gap:24px;align-items:flex-end;justify-content:center;height:${H+20}px;border-bottom:2px solid var(--line-strong);position:relative">${T.map(t=>`<div class="colwrap"><b class="disp" style="color:${t.me?'var(--wax)':'var(--ink)'}">${t.disp}</b><div class="bar ${t.me?'me':''}" style="height:${h(t,H)}px;background:${t.me?'':col(t)}"></div><span class="tname" style="font-size:.72rem">${lg(t,18)} ${t.n}</span></div>`).join("")}<div style="position:absolute;left:10px;bottom:54px;max-width:150px;font-size:.74rem;color:var(--ink-faint)">↑ ANDRII — вся высота. 7-Zip отсюда — пара пикселей.</div></div>`+NOTE}},
+
+{n:"Башня со шкалой лет",d:"Слева ось с делениями (100/500/1000/1441 лет) — масштаб читается по засечкам.",r:()=>{const H=6000;const ticks=[0,250,500,750,1000,1250,1441];return `<div class="stage" style="display:flex;gap:30px;align-items:flex-end;height:${H+30}px;padding-left:60px;position:relative;border-bottom:2px solid var(--line-strong)"><div style="position:absolute;left:0;bottom:0;height:${H}px;width:54px">${ticks.map(v=>`<div style="position:absolute;bottom:${v/MAX*H}px;right:0;width:100%;text-align:right;font-size:.68rem;color:var(--ink-faint);transform:translateY(50%)">${v} —</div>`).join("")}</div><div style="position:absolute;left:54px;bottom:0;height:${H}px;border-left:1px solid var(--line-strong)"></div>${T.map(t=>`<div class="colwrap"><b class="disp" style="color:${t.me?'var(--wax)':'var(--ink)'}">${t.disp}</b><div class="bar ${t.me?'me':''}" style="height:${h(t,H)}px;background:${t.me?'':col(t)}"></div><span class="tname" style="font-size:.72rem">${lg(t,18)} ${t.n}</span></div>`).join("")}</div>`+NOTE}},
+
+{n:"Башня-скролл (вехи вверх)",d:"ANDRII такой высокий, что приходится вести взгляд вверх мимо вех «100 / 500 / 1000 лет» — а соперники давно кончились.",r:()=>{const H=7000;const miles=[[100,"века уже прошли…"],[500,"полтысячи лет…"],[1000,"тысяча лет…"],[1441,"ANDRII"]];return `<div class="stage" style="display:flex;gap:30px;align-items:flex-end;height:${H+30}px;position:relative;border-bottom:2px solid var(--line-strong)"><div style="position:relative;width:64px;height:${H}px">${miles.map(m=>`<div style="position:absolute;bottom:${m[0]/MAX*H}px;left:0;white-space:nowrap;font-size:.72rem;color:${m[0]==1441?'var(--wax)':'var(--ink-faint)'};transform:translateY(50%)">— ${m[0]} лет · ${m[1]}</div>`).join("")}</div><div style="display:flex;gap:22px;align-items:flex-end;flex:1;justify-content:center">${T.map(t=>`<div class="colwrap"><b class="disp" style="color:${t.me?'var(--wax)':'var(--ink)'}">${t.disp}</b><div class="bar ${t.me?'me':''}" style="height:${h(t,H)}px;background:${t.me?'':col(t)}"></div><span class="tname" style="font-size:.7rem">${lg(t,16)} ${t.n}</span></div>`).join("")}</div></div><p class="note">Чем выше ANDRII — тем нагляднее: пока докрутишь до его вершины, все соперники остались точкой внизу.</p>`}},
+
+{n:"Башня + лупа на пол",d:"Та же башня, плюс врезка-зум основания, где видно мелкие инструменты в сравнении друг с другом.",r:()=>{const H=620;return `<div class="stage" style="display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:end"><div style="display:flex;gap:18px;align-items:flex-end;height:${H+20}px;border-bottom:2px solid var(--line-strong);justify-content:center">${T.map(t=>`<div class="colwrap"><b class="disp" style="color:${t.me?'var(--wax)':'var(--ink)'};font-size:.72rem">${t.disp}</b><div class="bar ${t.me?'me':''}" style="width:44px;height:${h(t,H)}px;background:${t.me?'':col(t)}"></div>${lg(t,16)}</div>`).join("")}</div><div style="background:var(--paper-card);border:1px dashed var(--line-strong);border-radius:12px;padding:14px"><div style="font-size:.74rem;color:var(--ink-soft);margin-bottom:10px">🔍 Зум на «пол» (ANDRII тут не помещается):</div>${T.filter(t=>!t.inst&&!t.me).map(t=>`<div style="display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;margin:7px 0"><span class="tname" style="font-size:.74rem">${lg(t,18)} ${t.n}</span><div style="height:12px;background:rgba(122,74,35,.1);border-radius:999px;overflow:hidden"><div style="height:100%;width:${t.y/6.92*100}%;background:${col(t)}"></div></div><b style="font-size:.76rem">${t.disp}</b></div>`).join("")}</div></div>`+NOTE}},
+
+{n:"Небоскрёб над городом",d:"ANDRII — небоскрёб с этажами на фоне неба, соперники — низкие домики у земли.",r:()=>{const H=6000;return `<div class="stage" style="display:flex;gap:18px;align-items:flex-end;justify-content:center;height:${H+30}px;background:linear-gradient(180deg,#cfe0e8,#eef0e4 75%);border-radius:12px;padding:16px;border-bottom:5px solid #6b4a2b;position:relative">${Array.from({length:18}).map((_,i)=>`<span style="position:absolute;width:3px;height:3px;background:#fff;border-radius:50%;left:${(i*57)%100}%;top:${(i*23)%40}%;opacity:.5"></span>`).join("")}${T.map(t=>{const bh=h(t,H);return `<div class="colwrap" style="position:relative;z-index:1"><b class="disp" style="color:${t.me?'var(--wax)':'var(--ink)'}">${t.disp}</b><div style="width:56px;height:${bh}px;border-radius:4px 4px 0 0;background:${t.me?'linear-gradient(180deg,var(--wax),#6f211a)':col(t)};background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.18),rgba(255,255,255,.18) 2px,transparent 2px,transparent 13px),repeating-linear-gradient(90deg,rgba(0,0,0,.07),rgba(0,0,0,.07) 2px,transparent 2px,transparent 14px)"></div><span class="tname" style="font-size:.7rem">${lg(t,16)} ${t.n}</span></div>`}).join("")}</div>`+NOTE}},
+];
+const app=document.getElementById("app"),toc=document.getElementById("toc");
+V.forEach((v,i)=>{const n=i+1;toc.insertAdjacentHTML("beforeend",`<a href="#v${n}">${n}. ${v.n}</a>`);const s=document.createElement("section");s.className="variant";s.id="v"+n;s.innerHTML=`<div class="wrap"><div class="vh"><div class="vn">${n}</div><div><h2 class="vt">${v.n}</h2><p class="vd">${v.d}</p></div></div>${v.r()}</div>`;app.appendChild(s);});
+</script></body></html>

@@ -1,0 +1,143 @@
+<!doctype html><html lang="ru"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ANDRII — 10 вариантов: лог-таймлайн взлома</title>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--paper:#efe6d2;--paper-light:#f6efe0;--paper-card:#fbf7ec;--ink:#2b2016;--ink-soft:#6a5a45;--ink-faint:#93805f;--brown:#7a4a23;--wax:#8f2f24;--gold:#cb9d5b;--ok:#3f7d46;--line:rgba(70,50,30,.16);--line-strong:rgba(70,50,30,.26);--display:"PT Serif",Georgia,serif;--sans:Inter,system-ui,sans-serif;--sh:0 14px 32px rgba(43,28,12,.12)}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+.ph{padding:46px 0 6px;text-align:center}.ph h1{font-family:var(--display);font-size:1.9rem;margin:0}.ph p{color:var(--ink-soft);margin:8px auto 0;max-width:64ch}
+.toc{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:18px auto 0}.toc a{font-size:.82rem;color:var(--brown);border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px;text-decoration:none;background:var(--paper-card)}
+.variant{padding:44px 0;border-top:1px solid var(--line)}.variant:nth-child(even){background:var(--paper-light)}
+.vh{display:flex;gap:14px;align-items:baseline;margin-bottom:8px;flex-wrap:wrap}
+.vn{font-family:var(--display);font-weight:700;color:var(--brown);background:var(--paper-card);border:1px solid var(--line);border-radius:10px;width:42px;height:42px;display:grid;place-items:center}
+.vt{font-family:var(--display);font-size:1.22rem;margin:0}.vd{color:var(--ink-soft);font-size:.9rem;margin:0;flex:1 1 260px}
+.note{color:var(--ink-faint);font-size:.8rem;margin:18px 0 0}
+b,p,h2{margin:0}
+.stage{margin-top:30px}
+/* shared marker label */
+.ml b{display:block;color:var(--brown);font-weight:800;font-size:.92rem}
+.ml{font-size:.74rem;color:var(--ink-soft);white-space:nowrap}
+.me-c{color:var(--wax)!important}
+.lg{display:inline-grid;place-items:center;border-radius:6px;overflow:hidden;vertical-align:middle;box-shadow:0 1px 3px rgba(43,28,12,.2);flex:0 0 auto}
+.lg img{width:84%;height:84%;object-fit:contain}
+.tname{display:inline-flex;align-items:center;gap:7px}
+/* 1 classic log axis */
+.ax{position:relative;height:4px;background:var(--line-strong);border-radius:4px;margin:60px 0 50px}
+.ax .tick{position:absolute;top:-7px;width:1px;height:14px;background:var(--line-strong);transform:translateX(-50%)}
+.ax .tl{position:absolute;top:14px;transform:translateX(-50%);font-size:.7rem;color:var(--ink-faint)}
+.ax .pin{position:absolute;top:-50px;transform:translateX(-50%);text-align:center}
+.ax .pin .d{width:14px;height:14px;border-radius:50%;background:var(--brown);margin:6px auto 0}
+.ax .pin.me .d{width:20px;height:20px;background:var(--wax);box-shadow:0 0 0 5px rgba(143,47,36,.18)}
+.mult{position:absolute;top:-26px;transform:translateX(-50%);font-size:.72rem;font-weight:700;color:var(--wax);background:rgba(143,47,36,.1);padding:2px 8px;border-radius:999px;white-space:nowrap}
+/* 2 racing */
+.race{position:relative;border-radius:14px;overflow:hidden;background:repeating-linear-gradient(90deg,#3a2c1d,#3a2c1d 38px,#34271a 38px,#34271a 76px);padding:0}
+.lane{position:relative;height:58px;border-bottom:3px dashed rgba(255,255,255,.25)}
+.lane:last-child{border-bottom:0}
+.car{position:absolute;top:50%;transform:translate(-50%,-50%);font-size:1.6rem;filter:drop-shadow(0 3px 4px rgba(0,0,0,.4));transition:left .3s}
+.race .flag{position:absolute;right:0;top:0;bottom:0;width:30px;background:repeating-conic-gradient(#fff 0 25%,#111 0 50%) 0 0/14px 14px;opacity:.85}
+.race .name{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#f0e2c8;font-size:.78rem;font-weight:600;text-shadow:0 1px 2px #000;display:flex;align-items:center;gap:7px}
+.race .t{position:absolute;top:50%;transform:translate(-50%,-50%);margin-top:-22px;font-size:.72rem;font-weight:800;color:#fff;text-shadow:0 1px 3px #000;white-space:nowrap}
+/* 3 3d road */
+.road3d{perspective:760px;margin:20px 0 10px}
+.road{height:300px;background:linear-gradient(180deg,#2a2018,#3c2d1e);transform:rotateX(52deg);transform-origin:bottom;position:relative;border-radius:6px;box-shadow:inset 0 0 60px rgba(0,0,0,.5)}
+.road .mid{position:absolute;left:50%;top:0;bottom:0;width:6px;transform:translateX(-50%);background:repeating-linear-gradient(#f4d58d,#f4d58d 24px,transparent 24px,transparent 48px)}
+.road .mk{position:absolute;left:50%;transform:translateX(-50%);text-align:center;color:#fff;font-size:.8rem;font-weight:700;text-shadow:0 2px 4px #000;white-space:nowrap}
+.road .mk .d{width:16px;height:16px;border-radius:50%;background:var(--gold);margin:4px auto 0;box-shadow:0 0 12px var(--gold)}
+.road .mk.me .d{background:var(--wax);box-shadow:0 0 16px var(--wax)}
+/* 4 neon */
+.neon{background:#1a120b;border-radius:14px;padding:40px 26px 30px;position:relative}
+.nbar{position:relative;height:8px;border-radius:999px;background:rgba(255,255,255,.08)}
+.nfill{position:absolute;left:0;top:0;height:100%;border-radius:999px;background:linear-gradient(90deg,#caa24e,#ffe6a6);box-shadow:0 0 14px #e9c777}
+.npin{position:absolute;top:-46px;transform:translateX(-50%);text-align:center;color:#f0e2c8;font-size:.74rem;white-space:nowrap}
+.npin b{display:block;color:#ffe6a6;text-shadow:0 0 10px rgba(255,230,166,.6)}
+.npin .d{width:12px;height:12px;border-radius:50%;background:#ffe6a6;margin:6px auto 0;box-shadow:0 0 12px #ffe6a6}
+.npin.me b{color:#ff8b7a}.npin.me .d{background:#ff8b7a;box-shadow:0 0 14px #ff8b7a}
+/* 5 mountain */
+.mtn{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;align-items:end;height:300px;background:linear-gradient(180deg,#cfe0e8,#eef0e4);border-radius:14px;padding:20px 18px;position:relative;overflow:hidden}
+.peak{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:6px;position:relative;z-index:1}
+.peak .tri{width:0;height:0;border-left:30px solid transparent;border-right:30px solid transparent;border-bottom:var(--h) solid var(--brown)}
+.peak.me .tri{border-bottom-color:var(--wax)}
+.peak .v{font-weight:800;font-size:.8rem}.peak .n{font-size:.72rem;color:var(--ink-soft)}
+/* 6 rocket */
+.rkt{position:relative;height:330px;border-radius:14px;background:linear-gradient(180deg,#0b1026,#26345e 50%,#8fb0d6 80%,#d8c9a6);overflow:hidden}
+.rkt .star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;opacity:.7}
+.rkt .alt{position:absolute;left:0;right:0;border-top:1px dashed rgba(255,255,255,.25);font-size:.68rem;color:rgba(255,255,255,.7);padding-left:8px}
+.rkt .obj{position:absolute;transform:translate(-50%,50%);text-align:center;color:#fff;font-size:.74rem;text-shadow:0 1px 3px #000;white-space:nowrap}
+.rkt .obj .e{font-size:1.4rem;display:block}
+/* 7 magnitude blocks */
+.mag .row{display:grid;grid-template-columns:130px 1fr auto;align-items:center;gap:14px;padding:9px 0}
+.mag .blocks{display:flex;gap:6px}
+.mag .blk{width:30px;height:30px;border-radius:6px;background:linear-gradient(180deg,#b0793f,var(--brown))}
+.mag .me .blk{background:linear-gradient(180deg,var(--wax),#6f211a)}
+.mag .v{font-weight:800;white-space:nowrap}
+/* 8 gap highlight */
+.gap{position:relative;height:4px;background:var(--line-strong);margin:70px 0 40px}
+.gap .seg{position:absolute;height:14px;top:-5px;background:repeating-linear-gradient(45deg,rgba(143,47,36,.25),rgba(143,47,36,.25) 6px,rgba(143,47,36,.12) 6px,rgba(143,47,36,.12) 12px);border-radius:4px}
+.gap .pin{position:absolute;top:-48px;transform:translateX(-50%);text-align:center}
+.gap .pin .d{width:14px;height:14px;border-radius:50%;background:var(--brown);margin:6px auto 0}
+.gap .pin.me .d{background:var(--wax);width:18px;height:18px}
+.gap .lbl{position:absolute;top:-30px;transform:translateX(-50%);font-weight:800;color:var(--wax);font-size:.9rem;background:var(--paper-card);padding:2px 10px;border-radius:999px;border:1px solid rgba(143,47,36,.3)}
+/* 10 minimal */
+.mn{position:relative;height:2px;background:var(--line-strong);margin:54px 0 30px}
+.mn .p{position:absolute;top:-40px;transform:translateX(-50%);text-align:center;font-size:.72rem;color:var(--ink-soft)}
+.mn .p b{display:block;color:var(--ink);font-family:var(--display);font-size:1rem}
+.mn .p::after{content:"";position:absolute;left:50%;bottom:-12px;transform:translateX(-50%);width:8px;height:8px;border-radius:50%;background:var(--brown)}
+.mn .p.me b{color:var(--wax)}
+@media(max-width:760px){.mtn{height:220px}.race .name{display:none}}
+</style></head><body>
+<header class="ph wrap"><h1>Лог-таймлайн взлома — 10 вариантов</h1><p>Пароль 8 символов, 12× RTX 4090. Главное — честно показать масштаб: от 7 лет до 1441 года это <b>×208</b>, а не «в 2 раза». Выбери оформление.</p><nav class="toc" id="toc"></nav></header>
+<main id="app"></main>
+<script>
+// years (windows = instant)
+const T=[
+ {key:"windows",n:"Windows ZIP",y:0,disp:"мгновенно",inst:1},
+ {key:"winzip",n:"WinZip",y:0.0301,disp:"11 дней"},
+ {key:"winrar",n:"WinRAR",y:1.73,disp:"≈ 2 года"},
+ {key:"sevenzip",n:"7-Zip",y:6.92,disp:"≈ 7 лет"},
+ {key:"andrii",n:"ANDRII",y:1441,disp:"1 441 год",me:1},
+];
+const LGSRC={andrii:"./brand/app-icon.png",winrar:"./brand/winrar.svg",sevenzip:"./brand/sevenzip.svg"};
+function lg(t,s=22){
+ const wrap=(inner,bg)=>`<span class="lg" style="width:${s}px;height:${s}px;background:${bg}">${inner}</span>`;
+ if(t.key==="windows")return wrap(`<svg viewBox="0 0 24 24" width="${s*.66}" height="${s*.66}"><rect x="1.5" y="1.5" width="9.5" height="9.5" rx="1" fill="#F35325"/><rect x="13" y="1.5" width="9.5" height="9.5" rx="1" fill="#81BC06"/><rect x="1.5" y="13" width="9.5" height="9.5" rx="1" fill="#05A6F0"/><rect x="13" y="13" width="9.5" height="9.5" rx="1" fill="#FFBA08"/></svg>`,"#fff");
+ if(t.key==="winzip")return wrap(`<b style="color:#1f1f1f;font-size:${s*.42}px;font-weight:800">WZ</b>`,"#F7B500");
+ return wrap(`<img src="${LGSRC[t.key]}">`,"#fff");
+}
+const LO=-1.6,HI=3.3,RANGE=HI-LO;
+const pos=t=> t.inst?0 : Math.max(0,Math.min(100,(Math.log10(t.y)-LO)/RANGE*100));
+const TICKS=[{l:"10 дн",y:0.027},{l:"1 год",y:1},{l:"10 лет",y:10},{l:"100 лет",y:100},{l:"1000 лет",y:1000}];
+const tp=y=>(Math.log10(y)-LO)/RANGE*100;
+const NOTE=`<p class="note">Шкала логарифмическая: каждый шаг вправо — это ×10. Поэтому отрезок «7 лет → 1441 год» занимает почти половину оси — это разница в ~200 раз.</p>`;
+
+const V=[
+{n:"Лог-ось с множителями",d:"Классическая логарифмическая ось с тиками и плашками «×N» между инструментами.",r:()=>{
+ const mults=[["WinZip→WinRAR",0.0301,1.73],["WinRAR→7-Zip",1.73,6.92],["7-Zip→ANDRII",6.92,1441]];
+ return `<div class="stage"><div class="ax">${TICKS.map(k=>`<div class="tick" style="left:${tp(k.y)}%"></div><div class="tl" style="left:${tp(k.y)}%">${k.l}</div>`).join("")}
+ ${T.filter(t=>!t.inst).map(t=>`<div class="pin ${t.me?'me':''}" style="left:${pos(t)}%"><span class="ml"><b class="${t.me?'me-c':''}">${t.disp}</b><span class="tname" style="justify-content:center">${lg(t,16)} ${t.n}</span></span><span class="d"></span></div>`).join("")}
+ ${mults.map(m=>{const a=tp(m[1]),b=tp(m[2]);return `<div class="mult" style="left:${(a+b)/2}%">×${Math.round(m[2]/m[1])}</div>`}).join("")}
+ </div></div>`+NOTE}},
+
+{n:"Гоночная трасса",d:"Каждый инструмент — машина на трассе. ANDRII уезжает к финишу, остальные сгрудились на старте.",r:()=>`<div class="stage"><div class="race">${T.map(t=>`<div class="lane"><span class="name">${lg(t,20)} ${t.n}</span><div class="flag"></div><span class="t" style="left:${Math.max(pos(t),6)}%">${t.disp}</span><span class="car" style="left:${Math.max(pos(t),6)}%">${t.me?'🏎️':t.inst?'🛑':'🚗'}</span></div>`).join("")}</div></div>`+NOTE},
+
+{n:"3D дорога",d:"Дорога в перспективе: метки уходят вдаль. ANDRII — почти у горизонта.",r:()=>`<div class="stage"><div class="road3d"><div class="road"><div class="mid"></div>${T.filter(t=>!t.inst).map(t=>{const p=pos(t);return `<div class="mk ${t.me?'me':''}" style="top:${100-p}%"><div>${t.disp}</div><div class="tname" style="justify-content:center;font-weight:400;font-size:.7rem;opacity:.95">${lg(t,16)} ${t.n}</div><div class="d"></div></div>`}).join("")}</div></div></div>`+NOTE},
+
+{n:"Неоновая шкала",d:"Тёмный фон, светящаяся лог-шкала с маркерами. Эффектно.",r:()=>`<div class="stage"><div class="neon"><div class="nbar"><div class="nfill" style="width:${pos(T[4])}%"></div>${T.filter(t=>!t.inst).map(t=>`<div class="npin ${t.me?'me':''}" style="left:${pos(t)}%"><b>${t.disp}</b><span class="tname" style="justify-content:center">${lg(t,16)} ${t.n}</span><div class="d"></div></div>`).join("")}</div></div></div>`+NOTE},
+
+{n:"Горы (высота = масштаб)",d:"Пики: высота по логарифму времени. Гора ANDRII заметно выше.",r:()=>`<div class="stage"><div class="mtn">${T.map(t=>{const h=t.inst?6:Math.max(8,pos(t)*2.6);return `<div class="peak ${t.me?'me':''}"><div class="v">${t.disp}</div><div class="tri" style="--h:${h}px"></div><div class="n tname" style="justify-content:center">${lg(t,18)} ${t.n}</div></div>`}).join("")}</div></div>`+NOTE},
+
+{n:"Ракета (день→космос)",d:"Высота полёта: дни у земли, годы в небе, века — в космосе.",r:()=>{let stars="";for(let i=0;i<40;i++){stars+=`<span class="star" style="left:${(i*53)%100}%;top:${(i*37)%55}%"></span>`}
+ const alts=[["века",6],["100 лет",26],["10 лет",46],["годы",62],["дни",84]];
+ return `<div class="stage"><div class="rkt">${stars}${alts.map(a=>`<div class="alt" style="top:${a[1]}%">${a[0]}</div>`).join("")}${T.map(t=>{const p=t.inst?2:pos(t);return `<div class="obj" style="left:${20+T.indexOf(t)*15}%;bottom:${p}%"><span class="e">${t.me?'🚀':t.inst?'🪨':'🛰️'}</span>${t.disp}<br><span style="opacity:.8">${t.n}</span></div>`}).join("")}</div></div>`+NOTE}},
+
+{n:"Блоки-порядки (×10)",d:"Каждый блок = ×10. У ANDRII блоков заметно больше — видно разницу в порядках.",r:()=>`<div class="stage mag">${T.filter(t=>!t.inst).map(t=>{const b=Math.max(1,Math.round(Math.log10(t.y)+2));return `<div class="row ${t.me?'me':''}"><div class="tname">${lg(t,24)} ${t.n}</div><div class="blocks">${Array.from({length:b}).map(()=>'<div class="blk"></div>').join("")}</div><div class="v">${t.disp}</div></div>`}).join("")}</div><p class="note">Каждый квадрат — это ×10 ко времени взлома. ANDRII на 2–3 квадрата дальше 7-Zip — то есть в сотни раз дольше.</p>`},
+
+{n:"Подсветка разрыва",d:"Ось с заштрихованным сегментом «7 лет → 1441 год» и крупной плашкой ×208.",r:()=>{const a=pos(T[3]),b=pos(T[4]);return `<div class="stage"><div class="gap"><div class="seg" style="left:${a}%;width:${b-a}%"></div><div class="lbl" style="left:${(a+b)/2}%">×208 дольше</div>${T.filter(t=>!t.inst).map(t=>`<div class="pin ${t.me?'me':''}" style="left:${pos(t)}%"><span class="ml"><b class="${t.me?'me-c':''}">${t.disp}</b><span class="tname" style="justify-content:center">${lg(t,16)} ${t.n}</span></span><span class="d"></span></div>`).join("")}</div></div>`+NOTE}},
+
+{n:"Спидометр-лента",d:"Лог-лента с цветовым переходом красный→зелёный и стрелками-маркерами.",r:()=>`<div class="stage"><div style="position:relative;height:46px;border-radius:999px;background:linear-gradient(90deg,#8f2f24,#d6a64e 45%,#3f7d46);margin:48px 0 20px">${T.filter(t=>!t.inst).map(t=>`<div style="position:absolute;left:${pos(t)}%;top:-42px;transform:translateX(-50%);text-align:center;font-size:.74rem;color:var(--ink-soft);white-space:nowrap"><b style="display:block;color:${t.me?'var(--wax)':'var(--brown)'}">${t.disp}</b>${t.n}<div style="width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:9px solid var(--ink);margin:6px auto 0"></div></div>`).join("")}</div><div style="display:flex;justify-content:space-between;color:var(--ink-faint);font-size:.72rem"><span>уязвимо</span><span>надёжно</span></div></div>`+NOTE},
+
+{n:"Минимал лог-лента",d:"Тонкая ось, маркеры и время. Тихо, но масштаб виден.",r:()=>`<div class="stage"><div class="mn">${T.filter(t=>!t.inst).map(t=>`<div class="p ${t.me?'me':''}" style="left:${pos(t)}%"><b>${t.disp}</b><span class="tname" style="justify-content:center">${lg(t,16)} ${t.n}</span></div>`).join("")}</div></div>`+NOTE},
+];
+const app=document.getElementById("app"),toc=document.getElementById("toc");
+V.forEach((v,i)=>{const n=i+1;toc.insertAdjacentHTML("beforeend",`<a href="#v${n}">${n}. ${v.n}</a>`);const s=document.createElement("section");s.className="variant";s.id="v"+n;s.innerHTML=`<div class="wrap"><div class="vh"><div class="vn">${n}</div><div><h2 class="vt">${v.n}</h2><p class="vd">${v.d}</p></div></div>${v.r()}</div>`;app.appendChild(s);});
+</script></body></html>

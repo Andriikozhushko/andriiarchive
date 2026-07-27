@@ -1,0 +1,77 @@
+<!doctype html><html lang="ru"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ANDRII — 10 вариантов: границы (с картинками)</title>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--paper:#efe6d2;--paper-light:#f6efe0;--paper-card:#fbf7ec;--ink:#2b2016;--ink-soft:#6a5a45;--ink-faint:#93805f;--brown:#7a4a23;--gold:#cb9d5b;--dark:#271910;--wax:#8f2f24;--line:rgba(70,50,30,.16);--line-strong:rgba(70,50,30,.26);--display:"PT Serif",Georgia,serif;--sans:Inter,system-ui,sans-serif;--sh:0 14px 32px rgba(43,28,12,.1)}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+.ph{padding:48px 0 6px;text-align:center}.ph h1{font-family:var(--display);font-size:2rem;margin:0}.ph p{color:var(--ink-soft);margin:8px auto 0;max-width:60ch}
+.toc{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:18px auto 0}.toc a{font-size:.83rem;color:var(--brown);border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px;text-decoration:none;background:var(--paper-card)}
+.variant{padding:42px 0;border-top:1px solid var(--line)}.variant:nth-child(even){background:var(--paper-light)}
+.vh{display:flex;gap:14px;align-items:baseline;margin-bottom:22px;flex-wrap:wrap}
+.vn{font-family:var(--display);font-weight:700;color:var(--brown);background:var(--paper-card);border:1px solid var(--line);border-radius:10px;width:42px;height:42px;display:grid;place-items:center}
+.vt{font-family:var(--display);font-size:1.25rem;margin:0}.vd{color:var(--ink-soft);font-size:.9rem;margin:0;flex:1 1 260px}
+b,p,h2,h3,h4{margin:0}img{display:block;max-width:100%}
+.head{margin-bottom:20px}.head h3{font-family:var(--display);font-size:1.5rem}.head p{color:var(--ink-soft);margin-top:8px;max-width:60ch}
+.dark{background:var(--dark);color:#ecdcc0;border-radius:16px;padding:32px 36px}.dark .head h3{color:#fbeccf}.dark .head p{color:#c2a67e}
+.th{border-radius:10px;object-fit:contain;flex:0 0 auto;background:rgba(122,74,35,.06);padding:4px}
+.thd{background:rgba(203,157,91,.1)}
+/* 1 dark cards w/ img */
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;list-style:none;margin:0;padding:0}
+.g2 li{display:flex;gap:14px;align-items:center;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(203,157,91,.18);color:#d9c099;font-size:.94rem}
+/* 2 light cards */
+.lg{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;list-style:none;margin:0;padding:0}
+.lg li{display:flex;gap:14px;align-items:center;background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;font-size:.95rem}
+/* 3 list thumb */
+.ls{list-style:none;margin:0;padding:0;max-width:680px}
+.ls li{display:flex;gap:16px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+/* 4 split big ill */
+.split{display:grid;grid-template-columns:280px 1fr;gap:40px;align-items:center}
+.split .ill img{width:100%;filter:drop-shadow(0 18px 26px rgba(40,22,8,.28))}
+.split ul{list-style:none;margin:0;padding:0}.split li{display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--line);align-items:center}
+/* 5 img-top cards */
+.tc{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.tc .x{background:var(--paper-card);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-align:center}
+.tc .top{height:92px;background:rgba(122,74,35,.06);display:grid;place-items:center}.tc .top img{height:72px}
+.tc .bd{padding:12px;font-size:.84rem;color:var(--ink-soft)}
+/* 6 banner */
+.ban{display:grid;grid-template-columns:200px 1fr;gap:30px;align-items:center;background:var(--dark);color:#ecdcc0;border-radius:16px;padding:28px 34px}
+.ban img{width:100%;filter:drop-shadow(0 12px 18px rgba(0,0,0,.4))}
+.ban ul{list-style:none;margin:0;padding:0}.ban li{padding:7px 0;color:#d9c099;border-top:1px solid rgba(203,157,91,.18)}.ban li:first-child{border:0}
+/* 7 alt rows */
+.alt .x{display:flex;gap:20px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
+.alt .x:nth-child(even){flex-direction:row-reverse;text-align:right}
+.alt .x b{font-size:1.05rem}
+/* 9 polaroid */
+.pol{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.pol .x{background:#fff;border:1px solid var(--line);border-radius:6px;padding:8px 8px 14px;box-shadow:0 12px 24px rgba(43,28,12,.16)}
+.pol .x:nth-child(odd){transform:rotate(-2deg)}.pol .x:nth-child(even){transform:rotate(1.6deg)}
+.pol img{height:90px;width:100%;object-fit:contain;background:rgba(122,74,35,.06);border-radius:4px}
+.pol p{font-size:.8rem;text-align:center;margin-top:8px;font-family:var(--display)}
+/* 10 minimal thumb */
+.mn{max-width:680px}.mn li{list-style:none;display:flex;gap:14px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);font-family:var(--display);font-size:1.05rem}
+@media(max-width:760px){.g2,.lg{grid-template-columns:1fr}.tc,.pol{grid-template-columns:1fr 1fr}.split,.ban{grid-template-columns:1fr}}
+</style></head><body>
+<header class="ph wrap"><h1>«Честно о границах» с картинками — 10 вариантов</h1><p>Чего ANDRII не делает. С тематическими иллюстрациями. Выбери оформление.</p><nav class="toc" id="toc"></nav></header>
+<main id="app"></main>
+<script>
+const IMG=["seal-broken","seal-intact","verify-glass","archive-box","chest-open"].map(x=>`./brand/${x}.png`);
+const L=["Забытый пароль восстановить нельзя","Бэкдора нет","Реализация ещё не проходила независимый аудит","Для важных данных делайте резервные копии","Используйте сильный пароль"];
+const H=`<div class="head"><h3>Честно о границах</h3><p>Безопасность — это не маркетинг. Вот чего ANDRII не делает и не обещает.</p></div>`;
+const im=(i,s,d)=>`<img class="th ${d?'thd':''}" src="${IMG[i]}" alt="" style="width:${s}px;height:${s}px">`;
+const V=[
+{n:"Тёмные карточки с превью",d:"Тёмная панель, пункты в 2 колонки с тематической картинкой.",r:()=>`<div class="dark">${H}<ul class="g2">${L.map((x,i)=>`<li>${im(i,46,1)}${x}</li>`).join("")}</ul></div>`},
+{n:"Светлые карточки с превью",d:"То же на светлом — мягче.",r:()=>H+`<ul class="lg">${L.map((x,i)=>`<li>${im(i,48)}${x}</li>`).join("")}</ul>`},
+{n:"Список с картинками",d:"Простой список: квадратное изображение слева, текст справа.",r:()=>H+`<ul class="ls">${L.map((x,i)=>`<li>${im(i,54)}<span>${x}</span></li>`).join("")}</ul>`},
+{n:"Сплит: крупная иллюстрация",d:"Слева большая брендовая картинка (сломанная печать), справа пункты.",r:()=>`<div class="split"><div class="ill"><img src="./brand/seal-broken.png" alt=""></div><div>${H.replace('margin-bottom:20px','margin-bottom:14px')}<ul>${L.map((x,i)=>`<li>${im(i,36)}${x}</li>`).join("")}</ul></div></div>`},
+{n:"Карточки с картинкой сверху",d:"Пять плиток, изображение наверху каждой.",r:()=>H+`<div class="tc">${L.map((x,i)=>`<div class="x"><div class="top"><img src="${IMG[i]}" alt=""></div><div class="bd">${x}</div></div>`).join("")}</div>`},
+{n:"Тёмный баннер",d:"Иллюстрация слева, пункты списком справа на тёмном фоне.",r:()=>`<div class="ban"><img src="./brand/seal-intact.png" alt=""><div>${H.replace('class="head"','class="head" style="margin-bottom:12px"').replace('color:#2b2016','')}<ul>${L.map(x=>`<li>${x}</li>`).join("")}</ul></div></div>`},
+{n:"Чередование строк",d:"Крупные строки с картинкой, зигзагом лево/право.",r:()=>H+`<div class="alt">${L.map((x,i)=>`<div class="x">${im(i,60)}<b>${x}</b></div>`).join("")}</div>`},
+{n:"Полароиды",d:"Карточки-полароиды со слегка наклонёнными картинками — «ручной» вайб.",r:()=>H+`<div class="pol">${L.map((x,i)=>`<div class="x"><img src="${IMG[i]}" alt=""><p>${x}</p></div>`).join("")}</div>`},
+{n:"Светлый баннер",d:"Иллюстрация + список на светлой карточке.",r:()=>`<div style="display:grid;grid-template-columns:200px 1fr;gap:30px;align-items:center;background:var(--paper-card);border:1px solid var(--line);border-radius:16px;padding:28px 32px"><img src="./brand/archive-box.png" style="width:100%;filter:drop-shadow(0 12px 18px rgba(40,22,8,.2))" alt=""><div>${H.replace('margin-bottom:20px','margin-bottom:12px')}<ul style="list-style:none;margin:0;padding:0">${L.map((x,i)=>`<li style="display:flex;gap:12px;align-items:center;padding:8px 0;border-top:1px solid var(--line)">${im(i,34)}${x}</li>`).join("")}</ul></div></div>`},
+{n:"Минимал с превью",d:"Тихая типографика + маленькое изображение у каждого пункта.",r:()=>H+`<ul class="mn">${L.map((x,i)=>`<li>${im(i,42)}${x}</li>`).join("")}</ul>`},
+];
+const app=document.getElementById("app"),toc=document.getElementById("toc");
+V.forEach((v,i)=>{const n=i+1;toc.insertAdjacentHTML("beforeend",`<a href="#v${n}">${n}. ${v.n}</a>`);const s=document.createElement("section");s.className="variant";s.id="v"+n;s.innerHTML=`<div class="wrap"><div class="vh"><div class="vn">${n}</div><div><h2 class="vt">${v.n}</h2><p class="vd">${v.d}</p></div></div>${v.r()}</div>`;app.appendChild(s);});
+</script></body></html>

@@ -1,0 +1,105 @@
+<!doctype html><html lang="ru"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ANDRII — 10 вариантов: взлом пароля</title>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--paper:#efe6d2;--paper-light:#f6efe0;--paper-card:#fbf7ec;--ink:#2b2016;--ink-soft:#6a5a45;--ink-faint:#93805f;--brown:#7a4a23;--wax:#8f2f24;--ok:#3f7d46;--line:rgba(70,50,30,.16);--line-strong:rgba(70,50,30,.26);--display:"PT Serif",Georgia,serif;--sans:Inter,system-ui,sans-serif;--sh:0 14px 32px rgba(43,28,12,.1)}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+.ph{padding:48px 0 6px;text-align:center}.ph h1{font-family:var(--display);font-size:2rem;margin:0}.ph p{color:var(--ink-soft);margin:8px auto 0;max-width:62ch}
+.toc{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:18px auto 0}.toc a{font-size:.83rem;color:var(--brown);border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px;text-decoration:none;background:var(--paper-card)}
+.variant{padding:42px 0;border-top:1px solid var(--line)}.variant:nth-child(even){background:var(--paper-light)}
+.vh{display:flex;gap:14px;align-items:baseline;margin-bottom:20px;flex-wrap:wrap}
+.vn{font-family:var(--display);font-weight:700;color:var(--brown);background:var(--paper-card);border:1px solid var(--line);border-radius:10px;width:42px;height:42px;display:grid;place-items:center}
+.vt{font-family:var(--display);font-size:1.25rem;margin:0}.vd{color:var(--ink-soft);font-size:.9rem;margin:0;flex:1 1 260px}
+.scn{display:inline-flex;gap:10px;align-items:center;background:rgba(74,52,31,.08);border:1px solid var(--line);border-radius:10px;padding:8px 14px;font-size:.85rem;color:var(--ink-soft);margin-bottom:18px}
+.scn b{color:var(--brown)}
+b,p,h2,h3,h4{margin:0}
+.tool{display:flex;align-items:center;gap:9px;font-weight:600}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--brown)}
+/* 1 bars */
+.b1{display:flex;flex-direction:column;gap:9px}
+.b1 .x{display:grid;grid-template-columns:160px 1fr auto;align-items:center;gap:16px;padding:10px 14px;border-radius:12px}
+.b1 .x.me{background:linear-gradient(90deg,rgba(122,74,35,.12),rgba(122,74,35,.04));border:1px solid rgba(122,74,35,.4)}
+.b1 .tr{height:10px;border-radius:999px;background:rgba(122,74,35,.12);overflow:hidden}.b1 .fi{height:100%;background:linear-gradient(90deg,#b0793f,var(--brown));border-radius:999px}
+.b1 .v{font-weight:800;white-space:nowrap}
+/* 2 cards */
+.b2{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.b2 .x{background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:18px;text-align:center}
+.b2 .x.me{border-color:var(--brown);box-shadow:var(--sh)}
+.b2 .v{font-family:var(--display);font-size:1.5rem;color:var(--brown);margin:8px 0 4px}.b2 .s{color:var(--ink-faint);font-size:.76rem}
+/* 3 timeline */
+.tl{position:relative;margin:30px 0 10px;height:3px;background:var(--line-strong)}
+.tl .m{position:absolute;top:-6px;transform:translateX(-50%);text-align:center}
+.tl .m .pin{width:14px;height:14px;border-radius:50%;background:var(--brown);margin:0 auto}
+.tl .m.me .pin{width:20px;height:20px;background:var(--wax);box-shadow:0 0 0 4px rgba(143,47,36,.2)}
+.tl .m .lab{font-size:.74rem;margin-top:8px;white-space:nowrap}.tl .m .lab b{display:block;color:var(--brown)}
+.tlax{display:flex;justify-content:space-between;color:var(--ink-faint);font-size:.72rem;margin-top:46px}
+/* 4 table */
+.tb{width:100%;border-collapse:collapse;background:var(--paper-card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.tb td,.tb th{padding:12px 16px;border-top:1px solid var(--line);font-size:.9rem;text-align:left}
+.tb th{border-top:0;background:rgba(74,52,31,.05);font-size:.74rem;text-transform:uppercase;color:var(--ink-faint)}
+.tb td:last-child{text-align:right;font-weight:800;color:var(--brown)}
+.tb tr.me{background:rgba(122,74,35,.08)}
+/* 5 traffic */
+.tf{display:flex;flex-direction:column;gap:10px}
+.tf .x{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:12px;border-left:5px solid}
+.tf .v{margin-left:auto;font-weight:800}
+/* 6 hero compare */
+.hc{display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:center;text-align:center}
+.hc .card{border-radius:16px;padding:30px;border:1px solid var(--line)}
+.hc .bad{background:rgba(143,47,36,.08);border-color:rgba(143,47,36,.3)}
+.hc .good{background:linear-gradient(160deg,#fbf3e4,var(--paper-card));border-color:var(--brown)}
+.hc .v{font-family:var(--display);font-size:2.4rem;line-height:1}.hc .bad .v{color:var(--wax)}.hc .good .v{color:var(--brown)}
+.hc .nm{margin-top:8px;font-weight:600}.hc .s{color:var(--ink-faint);font-size:.8rem}
+.hc .x{font-family:var(--display);font-size:1.4rem;color:var(--ink-faint)}
+/* 7 vcols */
+.vc{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;align-items:end;height:240px;border-bottom:2px solid var(--line-strong);padding-bottom:0}
+.vc .x{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:8px;text-align:center}
+.vc .bar{width:56%;max-width:48px;border-radius:7px 7px 0 0;background:linear-gradient(180deg,#b0793f,var(--brown));min-height:4px}
+.vc .x.me .bar{background:linear-gradient(180deg,var(--wax),#6f211a)}
+.vc .v{font-weight:800;font-size:.82rem}.vc .nm{font-size:.74rem;color:var(--ink-soft)}
+/* 8 list icons */
+.li{display:flex;flex-direction:column;gap:8px}
+.li .x{display:flex;align-items:center;gap:14px;background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:13px 16px}
+.li .ic{width:34px;height:34px;border-radius:9px;background:rgba(122,74,35,.1);display:grid;place-items:center;color:var(--brown)}
+.li .v{margin-left:auto;font-weight:800;color:var(--brown)}
+/* 9 risk scale */
+.rs{position:relative;height:46px;border-radius:999px;background:linear-gradient(90deg,#8f2f24,#d6a64e,#3f7d46);margin:34px 0 10px}
+.rs .m{position:absolute;top:-30px;transform:translateX(-50%);font-size:.72rem;text-align:center}
+.rs .m .pin{width:2px;height:54px;background:var(--ink);margin:6px auto 0;opacity:.5}
+.rs .m b{display:block;color:var(--ink)}
+.rslbl{display:flex;justify-content:space-between;color:var(--ink-faint);font-size:.72rem;margin-top:14px}
+/* 10 minimal */
+.mn .x{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.mn .nm{font-family:var(--display);font-size:1.05rem}.mn .v{font-family:var(--display);font-size:1.7rem;color:var(--brown)}
+.mn small{color:var(--ink-faint)}
+@media(max-width:820px){.b2,.vc{grid-template-columns:1fr 1fr}.hc{grid-template-columns:1fr}.b1 .x{grid-template-columns:1fr auto}}
+</style></head><body>
+<header class="ph wrap"><h1>«Сколько ломать пароль» — 10 вариантов</h1><p>Пароль 8 символов, ферма 12× RTX 4090, по бенчмаркам hashcat. Выбери оформление.</p><nav class="toc" id="toc"></nav></header>
+<main id="app"></main>
+<script>
+const T=[
+ {n:"ANDRII",me:1,v:"1 441 год",s:"Argon2id memory-hard",mag:1,col:"#7a4a23"},
+ {n:"7-Zip",v:"≈ 7 лет",s:"SHA-256 ×524288",mag:.62,col:"#9a7b3a"},
+ {n:"WinRAR",v:"≈ 2 года",s:"PBKDF2-SHA256",mag:.48,col:"#9a7b3a"},
+ {n:"WinZip",v:"≈ 11 дней",s:"PBKDF2-SHA1",mag:.2,col:"#b14b3a",warn:1},
+ {n:"Windows ZIP",v:"без пароля",s:"нет шифрования",mag:.04,col:"#8f2f24",open:1},
+];
+const scn=`<div class="scn"><b>8</b> символов · <b>12×</b> RTX 4090 · hashcat</div>`;
+const tfcol=t=>t.open?"#8f2f24":t.warn?"#d6713a":t.me?"#3f7d46":"#caa24e";
+const V=[
+{n:"Строки с барами",d:"Лог-полоса + время справа, ANDRII подсвечен. (Текущий стиль.)",r:()=>scn+`<div class="b1">${T.map(t=>`<div class="x ${t.me?'me':''}"><div class="tool"><span class="dot" style="background:${t.col}"></span>${t.n}</div><div class="tr"><div class="fi" style="width:${t.mag*100}%"></div></div><div class="v">${t.v}</div></div>`).join("")}</div>`},
+{n:"Карточки",d:"Каждый инструмент — карточка с крупным временем.",r:()=>scn+`<div class="b2">${T.map(t=>`<div class="x ${t.me?'me':''}"><div class="tool" style="justify-content:center"><span class="dot" style="background:${t.col}"></span>${t.n}</div><div class="v">${t.v}</div><div class="s">${t.s}</div></div>`).join("")}</div>`},
+{n:"Таймлайн (лог)",d:"Точки на оси времени дни→годы→века. Видно разрыв между инструментами.",r:()=>{const pos=[4,46,62,80,99];return scn+`<div class="tl">${T.map((t,i)=>`<div class="m ${t.me?'me':''}" style="left:${100-pos[i]}%"><div class="pin"></div><div class="lab"><b>${t.v}</b>${t.n}</div></div>`).join("")}</div><div class="tlax"><span>дни</span><span>годы</span><span>века</span></div>`}},
+{n:"Таблица",d:"Сухо и чётко: инструмент · KDF · время.",r:()=>scn+`<table class="tb"><thead><tr><th>Инструмент</th><th>Защита пароля</th><th>Время взлома</th></tr></thead><tbody>${T.map(t=>`<tr class="${t.me?'me':''}"><td>${t.n}</td><td>${t.s}</td><td>${t.v}</td></tr>`).join("")}</tbody></table>`},
+{n:"Светофор",d:"Цветом — степень риска: красный (мгновенно) → зелёный (века).",r:()=>scn+`<div class="tf">${T.map(t=>`<div class="x" style="border-left-color:${tfcol(t)};background:${tfcol(t)}14"><b>${t.n}</b><span class="s" style="color:var(--ink-faint);font-size:.8rem">${t.s}</span><span class="v" style="color:${tfcol(t)}">${t.v}</span></div>`).join("")}</div>`},
+{n:"Один акцент",d:"Лобовое сравнение: самый слабый против ANDRII.",r:()=>`<div class="hc"><div class="card bad"><div class="v">11 дней</div><div class="nm">WinZip</div><div class="s">слабый PBKDF2-SHA1</div></div><div class="x">против</div><div class="card good"><div class="v">1 441 год</div><div class="nm">ANDRII</div><div class="s">Argon2id memory-hard</div></div></div>`},
+{n:"Вертикальные бары",d:"Столбики (лог-высота), ANDRII выделен цветом.",r:()=>scn+`<div class="vc">${T.map(t=>`<div class="x ${t.me?'me':''}"><div class="v">${t.v}</div><div class="bar" style="height:${t.mag*100}%"></div><div class="nm">${t.n}</div></div>`).join("")}</div>`},
+{n:"Список с иконками",d:"Компактные строки с замком-иконкой и временем.",r:()=>scn+`<div class="li">${T.map(t=>`<div class="x"><div class="ic">${t.open?'🔓':'🔒'}</div><div><b>${t.n}</b><div class="s" style="color:var(--ink-faint);font-size:.8rem">${t.s}</div></div><div class="v">${t.v}</div></div>`).join("")}</div>`},
+{n:"Шкала риска",d:"Градиентная полоса «уязвимо → надёжно» с метками инструментов.",r:()=>{const pos=[2,18,46,62,99];return scn+`<div class="rs">${T.map((t,i)=>`<div class="m" style="left:${pos[i]}%"><b>${t.v}</b>${t.n}<div class="pin"></div></div>`).join("")}</div><div class="rslbl"><span>уязвимо</span><span>надёжно</span></div>`}},
+{n:"Минимал",d:"Только названия и время, тонкие линии. Тихо.",r:()=>scn+`<div class="mn">${T.map(t=>`<div class="x"><div class="nm">${t.n} <small>· ${t.s}</small></div><div class="v">${t.v}</div></div>`).join("")}</div>`},
+];
+const app=document.getElementById("app"),toc=document.getElementById("toc");
+V.forEach((v,i)=>{const n=i+1;toc.insertAdjacentHTML("beforeend",`<a href="#v${n}">${n}. ${v.n}</a>`);const s=document.createElement("section");s.className="variant";s.id="v"+n;s.innerHTML=`<div class="wrap"><div class="vh"><div class="vn">${n}</div><div><h2 class="vt">${v.n}</h2><p class="vd">${v.d}</p></div></div>${v.r()}</div>`;app.appendChild(s);});
+</script></body></html>

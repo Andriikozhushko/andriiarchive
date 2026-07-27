@@ -1,0 +1,106 @@
+import { useState, useEffect, useRef } from "react";
+import { invoke } from "@tauri-apps/api/core";
+import Vault from "../components/Vault";
+import { InkLens } from "../components/art";
+import sealIntact from "../assets/seal-intact.png";
+import { useT } from "../i18n";
+import { recordVerified } from "../lib/storage";
+import { mapError } from "../lib/errors";
+import type { VerifyResult } from "../types";
+
+interface VerifyArchiveProps {
+  archivePath?: string;
+  onBack: () => void;
+}
+
+export default function VerifyArchive({ archivePath, onBack }: VerifyArchiveProps) {
+  const t = useT();
+  const [verifying, setVerifying] = useState(false);
+  const [result, setResult]       = useState<VerifyResult | null>(null);
+  const [error, setError]         = useState<string | null>(null);
+
+  // Sequence guard: dropping a new archive while one is still verifying must
+  // not let the older, slower response overwrite the verdict — or worse, stamp
+  // its integrity result onto the wrong file in the recents list.
+  const reqIdRef = useRef(0);
+
+  useEffect(() => {
+    setResult(null);
+    setError(null);
+    if (archivePath) runVerify(archivePath);
+  }, [archivePath]);
+
+  const runVerify = async (path: string) => {
+    const reqId = ++reqIdRef.current;
+    setVerifying(true);
+    setResult(null);
+    setError(null);
+    try {
+      const r = await invoke<VerifyResult>("verify_archive_cmd", { request: { archive_path: path } });
+      if (reqId !== reqIdRef.current) return; // superseded
+      setResult(r);
+      // Only record a definite integrity verdict for real ANDRII archives.
+      if (r.has_valid_magic) recordVerified(path, r.is_valid);
+    } catch (e) {
+      if (reqId !== reqIdRef.current) return;
+      setError(mapError(String(e), t));
+    } finally {
+      if (reqId === reqIdRef.current) setVerifying(false);
+    }
+  };
+
+  const archiveName = archivePath?.replace(/\\/g, "/").split("/").pop() ?? "";
+  const isTampered  = result && !result.is_valid && result.has_valid_magic
+    && result.version_supported && !result.integrity_hash_valid;
+  const isUnknown   = result && !result.has_valid_magic;
+  const intact      = result?.is_valid ?? false;
+
+  let verdict: null | { kind: "intact" | "broken" | "unknown" | "fail"; title: string; body: string } = null;
+  if (result) {
+    if (result.is_valid) verdict = { kind: "intact", title: t("verify.intact"), body: t("verify.intactSub") };
+    else if (isTampered) verdict = { kind: "broken", title: t("verify.broken"), body: t("verify.brokenSub") };
+    else if (isUnknown)  verdict = { kind: "unknown", title: t("verify.noSeal"), body: t("verify.noSealSub") };
+    else                 verdict = { kind: "fail", title: t("verify.cantCheck"), body: "" };
+  }
+
+  return (
+    <div className="canvas">
+      <div className="canvas-center px-10 gap-7">
+        {verifying ? (
+          <div className="flex flex-col items-center animate-fade-in">
+            <Vault state="unlocking" size={150} />
+          </div>
+        ) : verdict ? (
+          <div className="flex flex-col items-center gap-6 animate-fade-in">
+            {verdict.kind === "intact"
+              ? <Vault state="sealed" tone="safe" size={156} src={sealIntact} />
+              : <Vault state="broken" size={156} />}
+
+            <div className="text-center space-y-2">
+              <h2 className={`font-serif text-[30px] font-semibold tracking-tight leading-tight
+                ${intact ? "text-safe-deep" : verdict.kind === "unknown" ? "text-ink" : "text-wax-deep"}`}>
+                {verdict.title}
+              </h2>
+              <p className="text-[15px] text-ink-soft max-w-sm mx-auto leading-relaxed">{verdict.body}</p>
+              {archiveName && (
+                <p className="font-mono text-[12px] text-ink-faint pt-1 truncate max-w-xs mx-auto">{archiveName}</p>
+              )}
+            </div>
+
+            {archivePath && (
+              <button onClick={() => runVerify(archivePath)} className="btn-secondary text-sm">
+                <InkLens size={15} /> {t("verify.checkAgain")}
+              </button>
+            )}
+          </div>
+        ) : error ? (
+          <p className="text-sm text-wax">{error}</p>
+        ) : null}
+      </div>
+
+      <div className="bottom-bar">
+        <button onClick={onBack} className="btn-ghost text-sm">← {t("common.back")}</button>
+      </div>
+    </div>
+  );
+}

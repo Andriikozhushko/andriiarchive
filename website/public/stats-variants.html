@@ -1,0 +1,86 @@
+<!doctype html><html lang="ru"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ANDRII — 10 вариантов: метрики</title>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--paper:#efe6d2;--paper-light:#f6efe0;--paper-card:#fbf7ec;--ink:#2b2016;--ink-soft:#6a5a45;--ink-faint:#93805f;--brown:#7a4a23;--gold:#cb9d5b;--line:rgba(70,50,30,.16);--line-strong:rgba(70,50,30,.26);--display:"PT Serif",Georgia,serif;--sans:Inter,system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6}
+.wrap{max-width:980px;margin:0 auto;padding:0 28px}
+.ph{padding:50px 0 6px;text-align:center}.ph h1{font-family:var(--display);font-size:2rem;margin:0}.ph p{color:var(--ink-soft);margin:8px auto 0;max-width:60ch}
+.toc{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:20px auto 0}.toc a{font-size:.84rem;color:var(--brown);border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px;text-decoration:none;background:var(--paper-card)}
+.variant{padding:44px 0;border-top:1px solid var(--line)}.variant:nth-child(even){background:var(--paper-light)}
+.vh{display:flex;gap:14px;align-items:baseline;margin-bottom:24px;flex-wrap:wrap}
+.vn{font-family:var(--display);font-weight:700;color:var(--brown);background:var(--paper-card);border:1px solid var(--line);border-radius:10px;width:42px;height:42px;display:grid;place-items:center}
+.vt{font-family:var(--display);font-size:1.25rem;margin:0}.vd{color:var(--ink-soft);font-size:.9rem;margin:0;flex:1 1 260px}
+b,p,h2,h3,h4{margin:0}
+/* 1 cards */
+.c1{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.c1 .x{background:var(--paper-card);border:1px solid var(--line);border-radius:14px;padding:28px;text-align:center}
+.c1 .x b{font-family:var(--display);font-size:2.8rem;color:var(--brown);display:block;line-height:1}.c1 .x span{color:var(--ink-soft);font-size:.9rem;display:block;margin-top:8px}
+/* 2 row sep */
+.c2{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;text-align:center}
+.c2 .x b{font-family:var(--display);font-size:3.4rem;color:var(--brown);display:block;line-height:1}.c2 .x span{color:var(--ink-soft);font-size:.88rem;display:block;margin-top:8px;max-width:18ch}
+.c2 .s{width:1px;background:var(--line-strong)}
+/* 3 donuts */
+.c3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.c3 .x{display:flex;flex-direction:column;align-items:center;text-align:center}
+.c3 .r{position:relative;width:130px;height:130px;border-radius:50%;display:grid;place-items:center;margin-bottom:12px}
+.c3 .r::before{content:"";position:absolute;width:98px;height:98px;border-radius:50%;background:var(--paper)}
+.variant:nth-child(even) .c3 .r::before{background:var(--paper-light)}
+.c3 .r b{position:relative;font-family:var(--display);font-size:1.7rem;color:var(--brown)}.c3 .x span{color:var(--ink-soft);font-size:.86rem}
+/* 4 gauge */
+.c4{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.c4 .x{text-align:center}
+.c4 .g{height:70px;width:140px;margin:0 auto;border-radius:140px 140px 0 0;overflow:hidden;position:relative;background:rgba(122,74,35,.12)}
+.c4 .g .fill{position:absolute;bottom:0;left:0;width:100%;transform-origin:bottom;background:conic-gradient(from -90deg at 50% 100%,var(--brown) var(--a),transparent 0);height:100%}
+.c4 .x b{font-family:var(--display);font-size:1.8rem;color:var(--brown);display:block;margin-top:6px}.c4 .x span{color:var(--ink-soft);font-size:.84rem}
+/* 5 hbars */
+.c5{display:flex;flex-direction:column;gap:16px}
+.c5 .x{display:grid;grid-template-columns:1fr 64px;gap:14px;align-items:center}
+.c5 .lab{font-size:.9rem;color:var(--ink-soft);margin-bottom:6px}
+.c5 .tr{height:16px;border-radius:999px;background:rgba(122,74,35,.12);overflow:hidden}.c5 .fi{height:100%;background:linear-gradient(90deg,#b0793f,var(--brown));border-radius:999px}
+.c5 .pc{font-family:var(--display);font-size:1.3rem;color:var(--brown);text-align:right}
+/* 6 icon cards */
+.c6{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.c6 .x{background:var(--paper-card);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;gap:14px;align-items:center}
+.c6 .i{width:46px;height:46px;border-radius:12px;background:rgba(122,74,35,.1);display:grid;place-items:center;color:var(--brown);font-size:1.3rem;flex:0 0 auto}
+.c6 b{font-family:var(--display);font-size:1.8rem;color:var(--brown);display:block;line-height:1}.c6 span{color:var(--ink-soft);font-size:.82rem}
+/* 7 big type list */
+.c7 .x{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
+.c7 .n{font-family:var(--display);font-size:1.1rem}.c7 .v{font-family:var(--display);font-size:2.2rem;color:var(--brown)}
+/* 8 feature */
+.c8{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+.c8 .big{background:linear-gradient(160deg,#fdf8ee,var(--paper-card));border:1px solid var(--line);border-radius:16px;padding:30px;display:flex;flex-direction:column;justify-content:center}
+.c8 .big b{font-family:var(--display);font-size:4rem;color:var(--brown);line-height:1}.c8 .big span{color:var(--ink-soft)}
+.c8 .col{display:flex;flex-direction:column;gap:16px}
+.c8 .col .x{background:var(--paper-card);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.c8 .col b{font-family:var(--display);font-size:2rem;color:var(--brown)}.c8 .col span{color:var(--ink-soft);font-size:.84rem;display:block}
+/* 9 pills */
+.c9{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.c9 .x{display:inline-flex;align-items:center;gap:10px;background:var(--paper-card);border:1px solid var(--line-strong);border-radius:999px;padding:12px 22px}
+.c9 b{font-family:var(--display);font-size:1.6rem;color:var(--brown)}.c9 span{color:var(--ink-soft);font-size:.88rem}
+/* 10 minimal */
+.c10{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.c10 .x{text-align:center;padding:10px 16px;border-left:1px solid var(--line)}.c10 .x:first-child{border-left:0}
+.c10 b{font-family:var(--display);font-size:2.6rem;color:var(--ink);display:block;line-height:1}.c10 span{color:var(--ink-faint);font-size:.82rem;display:block;margin-top:8px}
+@media(max-width:720px){.c1,.c3,.c4,.c6,.c8,.c10{grid-template-columns:1fr}.c8{grid-template-columns:1fr}}
+</style></head><body>
+<header class="ph wrap"><h1>Метрики экономии — 10 вариантов</h1><p>Три ключевых числа из бенчмарка. Выбери номер.</p><nav class="toc" id="toc"></nav></header>
+<main id="app"></main>
+<script>
+const M=[{v:"79.8%",p:79.8,l:"экономия на мелком тексте",i:"📄"},{v:"54.8%",p:54.8,l:"на множестве мелких файлов",i:"🗂"},{v:"0%",p:0,l:"на уже сжатых медиа",i:"🎞"}];
+const V=[
+{n:"Карточки",d:"Три ровные карточки с крупным числом. База, спокойно.",r:()=>`<div class="c1">${M.map(m=>`<div class="x"><b>${m.v}</b><span>${m.l}</span></div>`).join("")}</div>`},
+{n:"Числа в ряд",d:"Без рамок, крупная типографика с разделителями. Дорого и чисто.",r:()=>`<div class="c2">${M.map((m,i)=>`${i?'<div class="s"></div>':''}<div class="x"><b>${m.v}</b><span>${m.l}</span></div>`).join("")}</div>`},
+{n:"Донаты",d:"Кольца-прогресс. Нагляднее, чуть декоративнее.",r:()=>`<div class="c3">${M.map(m=>`<div class="x"><div class="r" style="background:conic-gradient(var(--brown) ${m.p}%,rgba(122,74,35,.14) 0)"><b>${m.v}</b></div><span>${m.l}</span></div>`).join("")}</div>`},
+{n:"Полу-шкалы (gauge)",d:"Полукруглые индикаторы — как спидометр.",r:()=>`<div class="c4">${M.map(m=>`<div class="x"><div class="g"><div class="fill" style="--a:${m.p*1.8}deg;background:conic-gradient(from -90deg at 50% 100%,var(--brown) ${m.p*1.8}deg,rgba(122,74,35,.10) 0)"></div></div><b>${m.v}</b><span>${m.l}</span></div>`).join("")}</div>`},
+{n:"Горизонтальные бары",d:"Полоса на каждую метрику + число справа.",r:()=>`<div class="c5">${M.map(m=>`<div class="x"><div><div class="lab">${m.l}</div><div class="tr"><div class="fi" style="width:${Math.max(m.p,1)}%"></div></div></div><div class="pc">${m.v}</div></div>`).join("")}</div>`},
+{n:"Иконка + число",d:"Карточки с иконкой слева и числом.",r:()=>`<div class="c6">${M.map(m=>`<div class="x"><div class="i">${m.i}</div><div><b>${m.v}</b><span>${m.l}</span></div></div>`).join("")}</div>`},
+{n:"Крупный список",d:"Строки «подпись — число», типографично, без боксов.",r:()=>`<div class="c7">${M.map(m=>`<div class="x"><div class="n">${m.l}</div><div class="v">${m.v}</div></div>`).join("")}</div>`},
+{n:"Акцент на главной",d:"Одна большая цифра-герой + две поменьше.",r:()=>`<div class="c8"><div class="big"><b>${M[0].v}</b><span>${M[0].l}</span></div><div class="col">${M.slice(1).map(m=>`<div class="x"><b>${m.v}</b><span>${m.l}</span></div>`).join("")}</div></div>`},
+{n:"Пилюли",d:"Компактные бейджи в ряд.",r:()=>`<div class="c9">${M.map(m=>`<div class="x"><b>${m.v}</b><span>${m.l}</span></div>`).join("")}</div>`},
+{n:"Минимал",d:"Только цифры и подписи, тонкие разделители. Максимально тихо.",r:()=>`<div class="c10">${M.map(m=>`<div class="x"><b>${m.v}</b><span>${m.l}</span></div>`).join("")}</div>`},
+];
+const app=document.getElementById("app"),toc=document.getElementById("toc");
+V.forEach((v,i)=>{const n=i+1;toc.insertAdjacentHTML("beforeend",`<a href="#v${n}">${n}. ${v.n}</a>`);const s=document.createElement("section");s.className="variant";s.id="v"+n;s.innerHTML=`<div class="wrap"><div class="vh"><div class="vn">${n}</div><div><h2 class="vt">${v.n}</h2><p class="vd">${v.d}</p></div></div>${v.r()}</div>`;app.appendChild(s);});
+</script></body></html>

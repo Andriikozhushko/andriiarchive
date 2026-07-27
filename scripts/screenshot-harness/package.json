@@ -1,0 +1,14 @@
+{
+  "name": "andrii-screenshot-harness",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Screenshot capture harness for the ANDRII website. Renders the real desktop-app React components in fixed states with mocked Tauri backends, then captures them with Playwright.",
+  "scripts": {
+    "dev": "vite",
+    "capture": "node capture.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.48.0"
+  }
+}

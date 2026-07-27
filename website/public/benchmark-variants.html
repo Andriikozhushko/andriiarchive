@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ANDRII — 10 вариантов блока «Цифры»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper-light:#f6efe0;--paper:#efe6d2;--paper-deep:#e8dcc2;--paper-card:#fbf7ec;
+    --ink:#2b2016;--ink-soft:#6a5a45;--ink-faint:#93805f;
+    --brown:#7a4a23;--brown-dark:#5b3415;--gold:#cb9d5b;--line:rgba(70,50,30,.16);--line-strong:rgba(70,50,30,.26);
+    --display:"PT Serif",Georgia,serif;--sans:Inter,system-ui,sans-serif;--shadow:0 16px 38px rgba(43,28,12,.1);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+  .page-head{padding:54px 0 6px;text-align:center}
+  .page-head h1{font-family:var(--display);font-weight:700;font-size:2.1rem;margin:0}
+  .page-head p{color:var(--ink-soft);margin:10px auto 0;max-width:62ch}
+  .toc{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:22px auto 0;max-width:920px}
+  .toc a{font-size:.85rem;color:var(--brown);border:1px solid var(--line-strong);border-radius:999px;padding:6px 13px;text-decoration:none;background:var(--paper-card)}
+  .toc a:hover{background:#fff}
+  .variant{padding:46px 0;border-top:1px solid var(--line)}
+  .variant:nth-child(even){background:var(--paper-light)}
+  .v-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+  .v-num{font-family:var(--display);font-weight:700;font-size:1.4rem;color:var(--brown);background:var(--paper-card);border:1px solid var(--line);border-radius:10px;width:44px;height:44px;display:grid;place-items:center;flex:0 0 auto}
+  .v-title{font-family:var(--display);font-weight:700;font-size:1.3rem;margin:0}
+  .v-desc{color:var(--ink-soft);font-size:.92rem;margin:2px 0 0;flex:1 1 280px}
+  h4,p{margin:0}
+
+  /* V1 stat cards + table */
+  .stat3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:22px}
+  .stat{background:var(--paper-card);border:1px solid var(--line);border-radius:14px;padding:26px 22px;text-align:center}
+  .stat b{font-family:var(--display);font-size:2.6rem;color:var(--brown);line-height:1;display:block}
+  .stat span{color:var(--ink-soft);font-size:.9rem;display:block;margin-top:8px}
+  .tbl{width:100%;border-collapse:collapse;background:var(--paper-card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .tbl th,.tbl td{padding:12px 18px;text-align:left;border-top:1px solid var(--line);font-size:.92rem}
+  .tbl th{font-size:.74rem;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-faint);font-weight:700;border-top:0;background:rgba(74,52,31,.05)}
+  .tbl td:last-child,.tbl th:last-child{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;color:var(--brown)}
+
+  /* V2 horizontal bars */
+  .hbars{display:flex;flex-direction:column;gap:14px}
+  .hbar{display:grid;grid-template-columns:200px 1fr 64px;align-items:center;gap:16px}
+  .hbar .lbl{font-weight:600;font-size:.92rem}
+  .hbar .track{height:14px;border-radius:999px;background:rgba(122,74,35,.12);overflow:hidden}
+  .hbar .fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#b0793f,var(--brown))}
+  .hbar .pct{text-align:right;font-weight:700;color:var(--brown);font-variant-numeric:tabular-nums}
+
+  /* V3 donuts */
+  .donuts{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .donut{display:flex;flex-direction:column;align-items:center;text-align:center;background:var(--paper-card);border:1px solid var(--line);border-radius:14px;padding:24px}
+  .ring{width:128px;height:128px;border-radius:50%;display:grid;place-items:center;margin-bottom:14px}
+  .ring::before{content:"";position:absolute;width:96px;height:96px;border-radius:50%;background:var(--paper-card)}
+  .ring b{position:relative;font-family:var(--display);font-size:1.7rem;color:var(--brown)}
+  .donut span{color:var(--ink-soft);font-size:.88rem}
+
+  /* V4 table inline bars */
+  .tbl2{width:100%;border-collapse:collapse;background:var(--paper-card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .tbl2 th,.tbl2 td{padding:12px 18px;border-top:1px solid var(--line);font-size:.92rem;text-align:left}
+  .tbl2 th{font-size:.74rem;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-faint);font-weight:700;border-top:0;background:rgba(74,52,31,.05)}
+  .tbl2 .save{display:flex;align-items:center;gap:12px}
+  .tbl2 .save .track{flex:1;max-width:140px;height:8px;border-radius:999px;background:rgba(122,74,35,.12);overflow:hidden}
+  .tbl2 .save .fill{height:100%;background:linear-gradient(90deg,#b0793f,var(--brown));border-radius:999px}
+  .tbl2 .save b{color:var(--brown);font-variant-numeric:tabular-nums;min-width:4ch;text-align:right}
+
+  /* V5 big numbers row */
+  .bigrow{display:flex;flex-wrap:wrap;gap:40px;justify-content:center;text-align:center;padding:10px 0}
+  .bignum b{font-family:var(--display);font-size:3.4rem;color:var(--brown);line-height:1;display:block}
+  .bignum span{color:var(--ink-soft);font-size:.9rem;display:block;margin-top:8px;max-width:18ch}
+  .bigrow .sep{width:1px;background:var(--line-strong);align-self:stretch}
+
+  /* V6 column chart */
+  .cols{display:grid;grid-template-columns:repeat(7,1fr);gap:14px;align-items:end;height:240px;padding:10px 0;border-bottom:2px solid var(--line-strong)}
+  .col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:8px}
+  .col .bar{width:60%;max-width:46px;border-radius:6px 6px 0 0;background:linear-gradient(180deg,#b0793f,var(--brown));min-height:3px}
+  .col .pct{font-weight:700;color:var(--brown);font-size:.82rem}
+  .col .cap{font-size:.72rem;color:var(--ink-soft);text-align:center;line-height:1.2}
+
+  /* V7 clean benefit list */
+  .blist{display:flex;flex-direction:column;gap:2px}
+  .brow{display:flex;align-items:center;gap:18px;padding:14px 4px;border-bottom:1px solid var(--line)}
+  .brow .name{flex:1;font-weight:600}
+  .brow .meta{color:var(--ink-faint);font-size:.84rem}
+  .brow .big{font-family:var(--display);font-size:1.5rem;color:var(--brown);min-width:5ch;text-align:right}
+
+  /* V8 bento */
+  .bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:120px;gap:14px}
+  .bento .cell{background:var(--paper-card);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;justify-content:space-between}
+  .bento .cell b{font-family:var(--display);font-size:2rem;color:var(--brown);line-height:1}
+  .bento .cell span{color:var(--ink-soft);font-size:.84rem}
+  .bento .feat{grid-column:span 2;grid-row:span 2;background:linear-gradient(160deg,#fdf8ee,var(--paper-card))}
+  .bento .feat b{font-size:3.2rem}
+
+  /* V9 before/after */
+  .ba{display:flex;flex-direction:column;gap:12px}
+  .barow{display:grid;grid-template-columns:180px 1fr;gap:18px;align-items:center;background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+  .barow .name{font-weight:600;font-size:.92rem}
+  .barow .vis{display:flex;align-items:center;gap:12px;font-variant-numeric:tabular-nums}
+  .barow .in{height:18px;border-radius:5px;background:rgba(122,74,35,.18)}
+  .barow .out{height:18px;border-radius:5px;background:linear-gradient(90deg,#b0793f,var(--brown))}
+  .barow .save{margin-left:auto;font-weight:700;color:var(--brown)}
+  .barow small{color:var(--ink-faint)}
+
+  /* V10 typographic minimal */
+  .typo{border-top:1px solid var(--ink);}
+  .tline{display:flex;align-items:baseline;justify-content:space-between;gap:20px;padding:16px 0;border-bottom:1px solid var(--line)}
+  .tline .n{font-family:var(--display);font-size:1.1rem}
+  .tline .v{font-family:var(--display);font-size:1.8rem;color:var(--brown);font-variant-numeric:tabular-nums}
+  .tline small{color:var(--ink-faint);font-weight:400}
+
+  @media(max-width:760px){
+    .stat3,.donuts{grid-template-columns:1fr}
+    .bento{grid-template-columns:repeat(2,1fr)}
+    .cols{grid-template-columns:repeat(7,1fr);height:180px}
+    .hbar{grid-template-columns:1fr;gap:6px}
+    .barow{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<header class="page-head wrap">
+  <h1>Блок «Цифры» — 10 вариантов</h1>
+  <p>Выбери оформление (напиши номер), и я поставлю его в секцию бенчмарков. Данные реальные из отчёта.</p>
+  <nav class="toc" id="toc"></nav>
+</header>
+<main id="app"></main>
+
+<script>
+const STATS=[
+  {value:"79.8%",label:"экономия на мелком тексте"},
+  {value:"54.8%",label:"на множестве мелких файлов"},
+  {value:"0%",label:"на уже сжатых медиа"},
+];
+const ROWS=[
+  {name:"Текст (мелкий)",files:200,input:"10.0 MB",pct:79.8},
+  {name:"Исходный код",files:212,input:"7.3 MB",pct:21.3},
+  {name:"Много мелких файлов",files:2000,input:"4.0 MB",pct:54.8},
+  {name:"Смешанные данные",files:327,input:"108.9 MB",pct:47.0},
+  {name:"Документы (микс)",files:10,input:"50.0 MB",pct:0.0},
+  {name:"Несжимаемое медиа",files:7,input:"101.0 MB",pct:0.0},
+  {name:"Большой бинарь",files:1,input:"64.0 MB",pct:0.0},
+];
+const num=(s)=>parseFloat(s);
+const fmt=(mb)=> mb>=1 ? mb.toFixed(1)+" MB" : (mb*1024).toFixed(0)+" KB";
+const pctTxt=(p)=> p<=0 ? "—" : p.toFixed(1)+"%";
+
+const V=[
+ {n:"Метрики + таблица",d:"Три крупных числа сверху, под ними аккуратная таблица результатов. Спокойно и информативно.",
+  r:()=>`<div class="stat3">${STATS.map(s=>`<div class="stat"><b>${s.value}</b><span>${s.label}</span></div>`).join("")}</div>
+  <table class="tbl"><thead><tr><th>Набор данных</th><th>Файлов</th><th>Вход</th><th>Экономия</th></tr></thead><tbody>
+  ${ROWS.map(r=>`<tr><td>${r.name}</td><td>${r.files}</td><td>${r.input}</td><td>${pctTxt(r.pct)}</td></tr>`).join("")}</tbody></table>`},
+
+ {n:"Горизонтальные бары",d:"Каждый набор — полоса во всю ширину. Сразу видно, что сжимается, а что нет.",
+  r:()=>`<div class="hbars">${ROWS.map(r=>`<div class="hbar"><div class="lbl">${r.name}</div><div class="track"><div class="fill" style="width:${Math.max(r.pct,0)}%"></div></div><div class="pct">${pctTxt(r.pct)}</div></div>`).join("")}</div>`},
+
+ {n:"Кольца-прогресс",d:"Три метрики в виде донатов. Нагляднее, но чуть декоративнее.",
+  r:()=>`<div class="donuts">${STATS.map(s=>{const p=num(s.value)||0;return `<div class="donut"><div class="ring" style="position:relative;background:conic-gradient(var(--brown) ${p}%, rgba(122,74,35,.14) 0)"><b>${s.value}</b></div><span>${s.label}</span></div>`}).join("")}</div>`},
+
+ {n:"Таблица с мини-барами",d:"Таблица, где экономия показана маленькой полоской прямо в ячейке.",
+  r:()=>`<table class="tbl2"><thead><tr><th>Набор данных</th><th>Файлов</th><th>Вход</th><th>Экономия</th></tr></thead><tbody>
+  ${ROWS.map(r=>`<tr><td>${r.name}</td><td>${r.files}</td><td>${r.input}</td><td><div class="save"><div class="track"><div class="fill" style="width:${Math.max(r.pct,0)}%"></div></div><b>${pctTxt(r.pct)}</b></div></td></tr>`).join("")}</tbody></table>`},
+
+ {n:"Крупные числа в ряд",d:"Минимум графики — три больших числа в строку с разделителями. Чисто и дорого.",
+  r:()=>`<div class="bigrow">${STATS.map((s,i)=>`${i?'<div class="sep"></div>':''}<div class="bignum"><b>${s.value}</b><span>${s.label}</span></div>`).join("")}</div>`},
+
+ {n:"Колонки (график)",d:"Вертикальный бар-чарт по всем наборам. Классический график экономии.",
+  r:()=>`<div class="cols">${ROWS.map(r=>`<div class="col"><div class="pct">${r.pct>0?r.pct.toFixed(0)+'%':'0'}</div><div class="bar" style="height:${Math.max(r.pct,1)}%"></div><div class="cap">${r.name}</div></div>`).join("")}</div>`},
+
+ {n:"Чистый список",d:"Строки «набор — экономия» с крупным числом справа. Без рамок, типографично.",
+  r:()=>`<div class="blist">${ROWS.map(r=>`<div class="brow"><div class="name">${r.name}<div class="meta">${r.files} файлов · ${r.input}</div></div><div class="big">${pctTxt(r.pct)}</div></div>`).join("")}</div>`},
+
+ {n:"Бенто-сетка",d:"Плитки разного размера: одна большая ключевая цифра и набор маленьких.",
+  r:()=>`<div class="bento"><div class="cell feat"><b>${STATS[0].value}</b><span>${STATS[0].label}</span></div>
+  ${ROWS.slice(0,6).map(r=>`<div class="cell"><b>${pctTxt(r.pct)}</b><span>${r.name}</span></div>`).join("")}</div>`},
+
+ {n:"До → После",d:"Размер до и после сжатия с наглядными полосами — показывает реальный выигрыш в МБ.",
+  r:()=>{const max=Math.max(...ROWS.map(r=>num(r.input)));return `<div class="ba">${ROWS.map(r=>{const inMb=num(r.input);const outMb=inMb*(1-r.pct/100);return `<div class="barow"><div class="name">${r.name}</div><div class="vis"><div class="in" style="width:${inMb/max*55+5}%"></div><small>${fmt(inMb)}</small><span>→</span><div class="out" style="width:${outMb/max*55+5}%"></div><small>${fmt(outMb)}</small><span class="save">${pctTxt(r.pct)}</span></div></div>`}).join("")}</div>`}},
+
+ {n:"Типографика (минимал)",d:"Только текст и крупные цифры, без боксов и баров. Максимально спокойно.",
+  r:()=>`<div class="typo">${ROWS.map(r=>`<div class="tline"><div class="n">${r.name} <small>· ${r.files} файлов · ${r.input}</small></div><div class="v">${pctTxt(r.pct)}</div></div>`).join("")}</div>`},
+];
+
+const app=document.getElementById("app"),toc=document.getElementById("toc");
+V.forEach((v,i)=>{
+  const n=i+1;
+  toc.insertAdjacentHTML("beforeend",`<a href="#v${n}">${n}. ${v.n}</a>`);
+  const s=document.createElement("section");s.className="variant";s.id="v"+n;
+  s.innerHTML=`<div class="wrap"><div class="v-head"><div class="v-num">${n}</div><div><h2 class="v-title">${v.n}</h2><p class="v-desc">${v.d}</p></div></div>${v.r()}</div>`;
+  app.appendChild(s);
+});
+</script>
+</body>
+</html>
